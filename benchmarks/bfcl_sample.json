@@ -1,0 +1,1823 @@
+{
+  "source": "https://github.com/ShishirPatil/gorilla",
+  "revision": "6ea57973c7a6097fd7c5915698c54c17c5b1b6c8",
+  "selection": "6 seeded random examples/category; first 3 dev, last 3 holdout; seed genai-tools-4827-CATEGORY",
+  "scoring": "Local strict JSON argument matcher; NOT official BFCL scoring",
+  "source_sha256": {
+    "berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_simple_python.json": "82dd63ba502eb2520c6b5d1d9a5c4b590e03ff261565175561f6228a367d1991",
+    "berkeley-function-call-leaderboard/bfcl_eval/data/possible_answer/BFCL_v4_simple_python.json": "90cd5bc653690ee8e459b5b3f3fc9458606f7f3fcbf795bb51b7dc581f8c86dc",
+    "berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_multiple.json": "aef168155ebd74b7ac2401198b201343bc7d16d7a3d7e0d4e6d8ee82c6969b2a",
+    "berkeley-function-call-leaderboard/bfcl_eval/data/possible_answer/BFCL_v4_multiple.json": "244e00ce9395df948bcafc7bee64e8f9c87ef70887587d83cae45b13699f3047",
+    "berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_parallel.json": "19f51a82eff42e5d62541aa500115a056eb78f437c2ba1f10415fd7c8e5dda84",
+    "berkeley-function-call-leaderboard/bfcl_eval/data/possible_answer/BFCL_v4_parallel.json": "8a6aa19c1adddc6a5a2f7e40f9dbf30cc7e95815e7b830c90589ab318229e0f0",
+    "berkeley-function-call-leaderboard/bfcl_eval/data/BFCL_v4_irrelevance.json": "2b6ed4c2e992cdcf5f1678a701851f944bef7550ee026ed1ddb89efed5be01a6"
+  },
+  "cases": [
+    {
+      "id": "bfcl/simple_python_155",
+      "suite": "bfcl",
+      "category": "simple_python",
+      "split": "dev",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Calculate the future value of my investment of $1000 with an annual interest rate of 5% over 2 years."
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "calculate_future_value",
+            "description": "Calculate the future value of an investment given the initial amount, interest rate, and investment duration.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "initial_investment": {
+                  "type": "integer",
+                  "description": "The initial investment amount."
+                },
+                "interest_rate": {
+                  "type": "number",
+                  "description": "The annual interest rate in decimal form."
+                },
+                "duration": {
+                  "type": "integer",
+                  "description": "The investment duration in years."
+                },
+                "compounded": {
+                  "type": "integer",
+                  "description": "The number of times the interest is compounded per year. Default is 1 (annual compounding)."
+                }
+              },
+              "required": [
+                "initial_investment",
+                "interest_rate",
+                "duration"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "calculate_future_value": {
+            "initial_investment": [
+              1000
+            ],
+            "interest_rate": [
+              0.05
+            ],
+            "duration": [
+              2
+            ],
+            "compounded": [
+              "",
+              1
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_132",
+      "suite": "bfcl",
+      "category": "simple_python",
+      "split": "dev",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Calculate the company's return on equity given its net income of $2,000,000, shareholder's equity of $10,000,000, and dividends paid of $200,000."
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "calculate_return_on_equity",
+            "description": "Calculate a company's return on equity based on its net income, shareholder's equity, and dividends paid.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "net_income": {
+                  "type": "integer",
+                  "description": "The company's net income."
+                },
+                "shareholder_equity": {
+                  "type": "integer",
+                  "description": "The company's total shareholder's equity."
+                },
+                "dividends_paid": {
+                  "type": "integer",
+                  "description": "The total dividends paid by the company. Optional. If not given, default to 0."
+                }
+              },
+              "required": [
+                "net_income",
+                "shareholder_equity"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "calculate_return_on_equity": {
+            "net_income": [
+              2000000
+            ],
+            "shareholder_equity": [
+              10000000
+            ],
+            "dividends_paid": [
+              200000
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_283",
+      "suite": "bfcl",
+      "category": "simple_python",
+      "split": "dev",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Find the price of a used Gibson Les Paul guitar in excellent condition in the Chicago area."
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "guitar_price.find",
+            "description": "Retrieve the price of a specific used guitar model based on its condition and location.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "model": {
+                  "type": "string",
+                  "description": "The model of the guitar."
+                },
+                "condition": {
+                  "type": "string",
+                  "enum": [
+                    "Poor",
+                    "Good",
+                    "Excellent"
+                  ],
+                  "description": "The condition of the guitar."
+                },
+                "location": {
+                  "type": "string",
+                  "description": "The location where the guitar is being sold."
+                }
+              },
+              "required": [
+                "model",
+                "condition",
+                "location"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "guitar_price.find": {
+            "model": [
+              "Gibson Les Paul"
+            ],
+            "condition": [
+              "Excellent"
+            ],
+            "location": [
+              "Chicago",
+              "Chicago, IL",
+              "Chicago, Illinois"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_234",
+      "suite": "bfcl",
+      "category": "simple_python",
+      "split": "holdout",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Find important Wars in European history during the 19th century."
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "history_eu.fetch_events",
+            "description": "Fetches significant historical events within a specific time period in European history.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "century": {
+                  "type": "integer",
+                  "description": "The century you are interested in."
+                },
+                "region": {
+                  "type": "string",
+                  "description": "The region of Europe you are interested in.",
+                  "enum": [
+                    "Northern",
+                    "Southern",
+                    "Eastern",
+                    "Western"
+                  ]
+                },
+                "category": {
+                  "type": "string",
+                  "description": "Category of the historical events. Default is 'Culture'.",
+                  "enum": [
+                    "Wars",
+                    "Culture",
+                    "Politics",
+                    "Scientific",
+                    "Others"
+                  ]
+                }
+              },
+              "required": [
+                "century",
+                "region"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "history_eu.fetch_events": {
+            "century": [
+              19
+            ],
+            "region": [
+              "Northern",
+              "Southern",
+              "Eastern",
+              "Western"
+            ],
+            "category": [
+              "Wars"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_177",
+      "suite": "bfcl",
+      "category": "simple_python",
+      "split": "holdout",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Find all Patent lawsuit cases of Facebook in 2018."
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "get_lawsuit_cases",
+            "description": "Retrieve all lawsuit cases related to a specific company during a particular year.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "company_name": {
+                  "type": "string",
+                  "description": "The name of the company."
+                },
+                "year": {
+                  "type": "integer",
+                  "description": "The specific year to search for lawsuit cases."
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "open",
+                    "closed",
+                    "all"
+                  ],
+                  "description": "The status of the lawsuit cases to retrieve. If not specified, defaults to 'all'."
+                }
+              },
+              "required": [
+                "company_name",
+                "year"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "get_lawsuit_cases": {
+            "company_name": [
+              "Facebook"
+            ],
+            "year": [
+              2018
+            ],
+            "status": [
+              "all",
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_218",
+      "suite": "bfcl",
+      "category": "simple_python",
+      "split": "holdout",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Given patient with id 546382, retrieve their brain MRI report with the status 'concluded'."
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "patient.get_mri_report",
+            "description": "Fetch the brain MRI report of the patient for a given status.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "patient_id": {
+                  "type": "string",
+                  "description": "The patient identifier."
+                },
+                "mri_type": {
+                  "type": "string",
+                  "description": "Type of the MRI. Default to be 'brain'.",
+                  "enum": [
+                    "brain",
+                    "spinal",
+                    "chest",
+                    "abdominal"
+                  ]
+                },
+                "status": {
+                  "type": "string",
+                  "description": "Status of the report, could be 'in progress', 'concluded' or 'draft'.",
+                  "enum": [
+                    "in progress",
+                    "concluded",
+                    "draft"
+                  ]
+                }
+              },
+              "required": [
+                "patient_id",
+                "status"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "patient.get_mri_report": {
+            "patient_id": [
+              "546382"
+            ],
+            "mri_type": [
+              "brain",
+              ""
+            ],
+            "status": [
+              "concluded"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_125",
+      "suite": "bfcl",
+      "category": "multiple",
+      "split": "dev",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Run a two sample T-test to compare the average of Group A [3, 4, 5, 6, 4] and Group B [7, 8, 9, 8, 7] assuming equal variance."
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "restaurant_search.find_closest",
+            "description": "Locate the closest sushi restaurant based on certain criteria, such as the presence of a patio.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "location": {
+                  "type": "string",
+                  "description": "The city, for instance Boston, MA"
+                },
+                "cuisine": {
+                  "type": "string",
+                  "description": "Type of food like Sushi."
+                },
+                "amenities": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "Patio",
+                      "Wi-Fi",
+                      "Happy Hour",
+                      "Wheelchair Accessible"
+                    ]
+                  },
+                  "description": "Preferred amenities in the restaurant. Default is empty array."
+                }
+              },
+              "required": [
+                "location",
+                "cuisine"
+              ]
+            }
+          }
+        },
+        {
+          "type": "function",
+          "function": {
+            "name": "run_two_sample_ttest",
+            "description": "Runs a two sample t-test for two given data groups.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "group1": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "description": "First group of data points."
+                },
+                "group2": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  },
+                  "description": "Second group of data points."
+                },
+                "equal_variance": {
+                  "type": "boolean",
+                  "description": "Assumption about whether the two samples have equal variance.",
+                  "default": true
+                }
+              },
+              "required": [
+                "group1",
+                "group2"
+              ]
+            }
+          }
+        },
+        {
+          "type": "function",
+          "function": {
+            "name": "get_personality_traits",
+            "description": "Retrieve the common personality traits of people based on their hobbies or activities.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "hobby": {
+                  "type": "string",
+                  "description": "The hobby or activity of interest."
+                },
+                "trait_count": {
+                  "type": "integer",
+                  "description": "The number of top traits to return, default is 5"
+                }
+              },
+              "required": [
+                "hobby"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "run_two_sample_ttest": {
+            "group1": [
+              [
+                3,
+                4,
+                5,
+                6,
+                4
+              ]
+            ],
+            "group2": [
+              [
+                7,
+                8,
+                9,
+                8,
+                7
+              ]
+            ],
+            "equal_variance": [
+              true,
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_37",
+      "suite": "bfcl",
+      "category": "multiple",
+      "split": "dev",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Find the final velocity of an object thrown up at 40 m/s after 6 seconds."
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "physics.wave_velocity",
+            "description": "Calculate the velocity of a wave based on its frequency and wavelength.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "frequency": {
+                  "type": "number",
+                  "description": "The frequency of the wave in Hz."
+                },
+                "wavelength": {
+                  "type": "number",
+                  "description": "The wavelength of the wave in m."
+                }
+              },
+              "required": [
+                "frequency",
+                "wavelength"
+              ]
+            }
+          }
+        },
+        {
+          "type": "function",
+          "function": {
+            "name": "kinematics.final_velocity",
+            "description": "Find the final velocity of an object moving under constant acceleration.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "initial_velocity": {
+                  "type": "integer",
+                  "description": "The initial velocity of the object in m/s."
+                },
+                "time": {
+                  "type": "integer",
+                  "description": "The time in seconds the object has been moving."
+                },
+                "acceleration": {
+                  "type": "number",
+                  "description": "The acceleration of the object in m/s^2. Default value is -9.81 (Earth's gravity)"
+                }
+              },
+              "required": [
+                "initial_velocity",
+                "time"
+              ]
+            }
+          }
+        },
+        {
+          "type": "function",
+          "function": {
+            "name": "kinematics.distance",
+            "description": "Find the distance traveled by an object moving under constant acceleration.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "initial_velocity": {
+                  "type": "number",
+                  "description": "The initial velocity of the object in m/s."
+                },
+                "time": {
+                  "type": "integer",
+                  "description": "The time in seconds the object has been moving."
+                },
+                "acceleration": {
+                  "type": "number",
+                  "description": "The acceleration of the object in m/s^2. Default value is -9.81 (Earth's gravity)"
+                }
+              },
+              "required": [
+                "initial_velocity",
+                "time"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "kinematics.final_velocity": {
+            "initial_velocity": [
+              40
+            ],
+            "time": [
+              6
+            ],
+            "acceleration": [
+              -9.81,
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_0",
+      "suite": "bfcl",
+      "category": "multiple",
+      "split": "dev",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Can I find the dimensions and properties of a triangle, if I know its three sides are 5 units, 4 units and 3 units long?"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "triangle_properties.get",
+            "description": "Retrieve the dimensions, such as area and perimeter, of a triangle if lengths of three sides are given.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "side1": {
+                  "type": "integer",
+                  "description": "The length of first side of the triangle."
+                },
+                "side2": {
+                  "type": "integer",
+                  "description": "The length of second side of the triangle."
+                },
+                "side3": {
+                  "type": "integer",
+                  "description": "The length of third side of the triangle."
+                },
+                "get_area": {
+                  "type": "boolean",
+                  "description": "A flag to determine whether to calculate the area of triangle. Default is true.",
+                  "default": true,
+                  "optional": true
+                },
+                "get_perimeter": {
+                  "type": "boolean",
+                  "description": "A flag to determine whether to calculate the perimeter of triangle. Default is true.",
+                  "default": true,
+                  "optional": true
+                },
+                "get_angles": {
+                  "type": "boolean",
+                  "description": "A flag to determine whether to calculate the internal angles of triangle. Default is true.",
+                  "default": true,
+                  "optional": true
+                }
+              },
+              "required": [
+                "side1",
+                "side2",
+                "side3"
+              ]
+            }
+          }
+        },
+        {
+          "type": "function",
+          "function": {
+            "name": "circle_properties.get",
+            "description": "Retrieve the dimensions, such as area and circumference, of a circle if radius is given.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "radius": {
+                  "type": "number",
+                  "description": "The length of radius of the circle."
+                },
+                "get_area": {
+                  "type": "boolean",
+                  "description": "A flag to determine whether to calculate the area of circle. Default is true.",
+                  "default": true,
+                  "optional": true
+                },
+                "get_circumference": {
+                  "type": "boolean",
+                  "description": "A flag to determine whether to calculate the circumference of circle. Default is true.",
+                  "default": true,
+                  "optional": true
+                }
+              },
+              "required": [
+                "radius"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "triangle_properties.get": {
+            "side1": [
+              5
+            ],
+            "side2": [
+              4
+            ],
+            "side3": [
+              3
+            ],
+            "get_area": [
+              "",
+              true
+            ],
+            "get_perimeter": [
+              "",
+              true
+            ],
+            "get_angles": [
+              "",
+              true
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_78",
+      "suite": "bfcl",
+      "category": "multiple",
+      "split": "holdout",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Get me information about Natural History Museum in London including timings, exhibitions, and accessibility."
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "tourist_spot_info",
+            "description": "Retrieve information about a specific tourist spot.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "spot": {
+                  "type": "string",
+                  "description": "The name of the tourist spot you want to get information for."
+                },
+                "city": {
+                  "type": "string",
+                  "description": "The city where the tourist spot is located."
+                },
+                "details": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "timing",
+                      "attractions",
+                      "tickets",
+                      "accessibility",
+                      "history"
+                    ]
+                  },
+                  "description": "Details of the tourist spot to get information on. For multiple details, separate them by comma.",
+                  "default": "timing, attractions"
+                }
+              },
+              "required": [
+                "spot",
+                "city"
+              ]
+            }
+          }
+        },
+        {
+          "type": "function",
+          "function": {
+            "name": "museum_info",
+            "description": "Retrieve information about a specific museum.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "museum": {
+                  "type": "string",
+                  "description": "The name of the museum you want to get information for."
+                },
+                "city": {
+                  "type": "string",
+                  "description": "The city where the museum is located."
+                },
+                "features": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "timings",
+                      "exhibitions",
+                      "accessibility",
+                      "events",
+                      "history"
+                    ]
+                  },
+                  "description": "Features of the museum to get information on. For multiple features, separate them by comma.",
+                  "default": "timings, exhibitions"
+                }
+              },
+              "required": [
+                "museum",
+                "city"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "museum_info": {
+            "museum": [
+              "Natural History Museum"
+            ],
+            "city": [
+              "London"
+            ],
+            "features": [
+              [
+                "timings",
+                "exhibitions",
+                "accessibility"
+              ],
+              [
+                "exhibitions",
+                "timings",
+                "accessibility"
+              ],
+              [
+                "exhibitions",
+                "accessibility",
+                "timings"
+              ],
+              [
+                "accessibility",
+                "timings",
+                "exhibitions"
+              ],
+              [
+                "accessibility",
+                "exhibitions",
+                "timings"
+              ],
+              [
+                "timings",
+                "accessibility",
+                "exhibitions"
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_31",
+      "suite": "bfcl",
+      "category": "multiple",
+      "split": "holdout",
+      "messages": [
+        {
+          "role": "user",
+          "content": "What is the area and perimeter of a rectangle with width of 7 units and length of 10 units?"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "geometry_square.calculate",
+            "description": "Calculates the area and perimeter of a square given the side length.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "side": {
+                  "type": "integer",
+                  "description": "The length of a side of the square."
+                }
+              },
+              "required": [
+                "side"
+              ]
+            }
+          }
+        },
+        {
+          "type": "function",
+          "function": {
+            "name": "geometry_circle.calculate",
+            "description": "Calculates the area and circumference of a circle given the radius.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "radius": {
+                  "type": "integer",
+                  "description": "The radius of the circle."
+                }
+              },
+              "required": [
+                "radius"
+              ]
+            }
+          }
+        },
+        {
+          "type": "function",
+          "function": {
+            "name": "geometry_rectangle.calculate",
+            "description": "Calculates the area and perimeter of a rectangle given the width and length.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "width": {
+                  "type": "integer",
+                  "description": "The width of the rectangle."
+                },
+                "length": {
+                  "type": "integer",
+                  "description": "The length of the rectangle."
+                }
+              },
+              "required": [
+                "width",
+                "length"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "geometry_rectangle.calculate": {
+            "width": [
+              7
+            ],
+            "length": [
+              10
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_130",
+      "suite": "bfcl",
+      "category": "multiple",
+      "split": "holdout",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Calculate the Compound Annual Growth Rate (CAGR) for an initial investment of $2000, final value of $3000 in a period of 4 years."
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "chess.rating",
+            "description": "Fetches the current chess rating of a given player",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "player_name": {
+                  "type": "string",
+                  "description": "The full name of the chess player."
+                },
+                "variant": {
+                  "type": "string",
+                  "description": "The variant of chess for which rating is requested (e.g., 'classical', 'blitz', 'bullet'). Default is 'classical'."
+                }
+              },
+              "required": [
+                "player_name"
+              ]
+            }
+          }
+        },
+        {
+          "type": "function",
+          "function": {
+            "name": "solve_quadratic",
+            "description": "Find the roots of a quadratic equation. Returns both roots.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "a": {
+                  "type": "integer",
+                  "description": "Coefficient of x²."
+                },
+                "b": {
+                  "type": "integer",
+                  "description": "Coefficient of x."
+                },
+                "c": {
+                  "type": "integer",
+                  "description": "Constant term."
+                }
+              },
+              "required": [
+                "a",
+                "b",
+                "c"
+              ]
+            }
+          }
+        },
+        {
+          "type": "function",
+          "function": {
+            "name": "calculate_cagr",
+            "description": "Calculate the Compound Annual Growth Rate (CAGR) given an initial investment value, a final investment value, and the number of years.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "initial_value": {
+                  "type": "integer",
+                  "description": "The initial investment value."
+                },
+                "final_value": {
+                  "type": "integer",
+                  "description": "The final investment value."
+                },
+                "period_in_years": {
+                  "type": "integer",
+                  "description": "The period of the investment in years."
+                }
+              },
+              "required": [
+                "initial_value",
+                "final_value",
+                "period_in_years"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "calculate_cagr": {
+            "initial_value": [
+              2000
+            ],
+            "final_value": [
+              3000
+            ],
+            "period_in_years": [
+              4
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_80",
+      "suite": "bfcl",
+      "category": "parallel",
+      "split": "dev",
+      "messages": [
+        {
+          "role": "user",
+          "content": "\"John and Mary are playing a game where they each choose two numbers and then calculate the greatest common divisor (GCD) of their chosen numbers. John chose the numbers 36 and 48, while Mary chose the numbers 60 and 96. Can you help them find the GCD of their chosen numbers?\""
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "math.gcd",
+            "description": "Calculate the greatest common divisor of two integers.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "num1": {
+                  "type": "integer",
+                  "description": "First number."
+                },
+                "num2": {
+                  "type": "integer",
+                  "description": "Second number."
+                }
+              },
+              "required": [
+                "num1",
+                "num2"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "math.gcd": {
+            "num1": [
+              36
+            ],
+            "num2": [
+              48
+            ]
+          }
+        },
+        {
+          "math.gcd": {
+            "num1": [
+              60
+            ],
+            "num2": [
+              96
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_21",
+      "suite": "bfcl",
+      "category": "parallel",
+      "split": "dev",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Show me all individuals who were convicted for money laundering from San Francisco in 2019 and ones convicted for the same in Texas in 2018"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "law_crimes.search",
+            "description": "Locate individuals based on their crime conviction and location.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "crime": {
+                  "type": "string",
+                  "description": "Type of crime to search."
+                },
+                "location": {
+                  "type": "string",
+                  "description": "City or state where the crime was committed."
+                },
+                "year": {
+                  "type": "integer",
+                  "description": "The year when the crime was committed."
+                }
+              },
+              "required": [
+                "crime",
+                "location",
+                "year"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "law_crimes.search": {
+            "crime": [
+              "money laundering"
+            ],
+            "location": [
+              "San Francisco",
+              "SF"
+            ],
+            "year": [
+              2019
+            ]
+          }
+        },
+        {
+          "law_crimes.search": {
+            "crime": [
+              "money laundering"
+            ],
+            "location": [
+              "Texas",
+              "TX"
+            ],
+            "year": [
+              2018
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_192",
+      "suite": "bfcl",
+      "category": "parallel",
+      "split": "dev",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Can you fetch the latest news on the topic of \"Climate Change\" and \"Artificial Intelligence\", each with 5 articles, and specifically for the region \"Europe\"?"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "get_news",
+            "description": "Fetches the latest news on a specific topic.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "topic": {
+                  "type": "string",
+                  "description": "The subject for the news topic."
+                },
+                "quantity": {
+                  "type": "integer",
+                  "description": "Number of articles to fetch."
+                },
+                "region": {
+                  "type": "string",
+                  "description": "The geographical region for the news (Optional). default is 'USA'"
+                }
+              },
+              "required": [
+                "topic",
+                "quantity"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "get_news": {
+            "topic": [
+              "Climate Change"
+            ],
+            "quantity": [
+              5
+            ],
+            "region": [
+              "Europe",
+              "EU"
+            ]
+          }
+        },
+        {
+          "get_news": {
+            "topic": [
+              "Artificial Intelligence"
+            ],
+            "quantity": [
+              5
+            ],
+            "region": [
+              "Europe",
+              "EU"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_124",
+      "suite": "bfcl",
+      "category": "parallel",
+      "split": "holdout",
+      "messages": [
+        {
+          "role": "user",
+          "content": "What would be the projected population growth of Japan and India in the next 10 and 20 years respectively, considering the current growth rate, and how would these projections change if we consider a growth rate of 1.5% for Japan and 2.1% for India instead of the current growth rate?"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "population_projections",
+            "description": "Calculates the projected population growth based on the current growth rate.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "country": {
+                  "type": "string",
+                  "description": "The country for which to calculate the population projection."
+                },
+                "years": {
+                  "type": "integer",
+                  "description": "Number of years for the projection."
+                },
+                "growth_rate": {
+                  "type": "number",
+                  "description": "Optional parameter to specify the growth rate. Default is current growth rate. of 0.01"
+                }
+              },
+              "required": [
+                "country",
+                "years"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "population_projections": {
+            "country": [
+              "Japan"
+            ],
+            "years": [
+              10
+            ],
+            "growth_rate": [
+              "",
+              0.01
+            ]
+          }
+        },
+        {
+          "population_projections": {
+            "country": [
+              "Japan"
+            ],
+            "years": [
+              10
+            ],
+            "growth_rate": [
+              0.015
+            ]
+          }
+        },
+        {
+          "population_projections": {
+            "country": [
+              "India"
+            ],
+            "years": [
+              20
+            ],
+            "growth_rate": [
+              0.021
+            ]
+          }
+        },
+        {
+          "population_projections": {
+            "country": [
+              "India"
+            ],
+            "years": [
+              20
+            ],
+            "growth_rate": [
+              "",
+              0.01
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_5",
+      "suite": "bfcl",
+      "category": "parallel",
+      "split": "holdout",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Find the list of TV shows and their ratings on Netflix for 'Friends', and Hulu for 'The Office' and 'Stranger Things' and sort by its rating"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "streaming_services.shows_list_and_ratings",
+            "description": "Get a list of shows and their ratings on specific streaming services.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "streaming_service": {
+                  "type": "string",
+                  "description": "Name of the streaming service. E.g., Netflix, Hulu, etc."
+                },
+                "show_list": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "List of show names to search for on the platform."
+                },
+                "sort_by_rating": {
+                  "type": "boolean",
+                  "description": "If set to true, returns the list sorted by ratings. Defaults to false."
+                }
+              },
+              "required": [
+                "streaming_service",
+                "show_list"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "streaming_services.shows_list_and_ratings": {
+            "streaming_service": [
+              "Netflix"
+            ],
+            "show_list": [
+              [
+                "Friends"
+              ]
+            ],
+            "sort_by_rating": [
+              true
+            ]
+          }
+        },
+        {
+          "streaming_services.shows_list_and_ratings": {
+            "streaming_service": [
+              "Hulu"
+            ],
+            "show_list": [
+              [
+                "The Office",
+                "Stranger Things"
+              ],
+              [
+                "Stranger Things",
+                "The Office"
+              ]
+            ],
+            "sort_by_rating": [
+              true
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_108",
+      "suite": "bfcl",
+      "category": "parallel",
+      "split": "holdout",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Can you provide a detailed description of the structure and functioning of a neuron cell and then compare it with a less detailed description of a muscle cell in the human body?"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "biology.get_cell_info",
+            "description": "Retrieve information about the structure and functioning of a specified type of cell",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "cell_type": {
+                  "type": "string",
+                  "description": "Type of cell you want information about"
+                },
+                "detailed": {
+                  "type": "boolean",
+                  "description": "Indicate if you want a detailed description of the cell",
+                  "default": "false"
+                }
+              },
+              "required": [
+                "cell_type"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": [
+        {
+          "biology.get_cell_info": {
+            "cell_type": [
+              "neuron"
+            ],
+            "detailed": [
+              true
+            ]
+          }
+        },
+        {
+          "biology.get_cell_info": {
+            "cell_type": [
+              "muscle"
+            ],
+            "detailed": [
+              false,
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "bfcl/irrelevance_204",
+      "suite": "bfcl",
+      "category": "irrelevance",
+      "split": "dev",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Create a jigsaw puzzle"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "game_functions.solve_jigsaw",
+            "description": "Generate solution for a given jigsaw puzzle image.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "puzzle_image": {
+                  "type": "string",
+                  "description": "The image file of the jigsaw puzzle."
+                },
+                "pieces_count": {
+                  "type": "integer",
+                  "description": "Number of pieces in the jigsaw puzzle."
+                },
+                "solve_method": {
+                  "type": "string",
+                  "default": "brute_force",
+                  "enum": [
+                    "brute_force",
+                    "genetic_algorithm"
+                  ],
+                  "description": "Method to be used to solve the puzzle. Default is brute_force."
+                }
+              },
+              "required": [
+                "puzzle_image",
+                "pieces_count"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": []
+    },
+    {
+      "id": "bfcl/irrelevance_35",
+      "suite": "bfcl",
+      "category": "irrelevance",
+      "split": "dev",
+      "messages": [
+        {
+          "role": "user",
+          "content": "What is the mating process of Lions?"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "get_genetic_traits",
+            "description": "Retrieve the dominant and recessive genetic traits for a given species.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "species": {
+                  "type": "string",
+                  "description": "The species to retrieve the genetic traits for."
+                },
+                "dominant_trait": {
+                  "type": "string",
+                  "description": "The dominant trait for the species."
+                },
+                "recessive_trait": {
+                  "type": "string",
+                  "description": "The recessive trait for the species."
+                }
+              },
+              "required": [
+                "species",
+                "dominant_trait",
+                "recessive_trait"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": []
+    },
+    {
+      "id": "bfcl/irrelevance_183",
+      "suite": "bfcl",
+      "category": "irrelevance",
+      "split": "dev",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Who was the winner of Wimbledon Men's Singles in 2021?"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "find_top_sports_celebrity",
+            "description": "Fetches information about a top sports celebrity including basic information, match records, endorsements and net worth.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Name of the celebrity."
+                },
+                "year": {
+                  "type": "integer",
+                  "description": "The year in which the celebrity rose to fame or importance."
+                },
+                "sports_type": {
+                  "type": "string",
+                  "description": "The type of sport the celebrity is known for, e.g. Tennis, Basketball, Football.",
+                  "default": "All"
+                }
+              },
+              "required": [
+                "name",
+                "year"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": []
+    },
+    {
+      "id": "bfcl/irrelevance_65",
+      "suite": "bfcl",
+      "category": "irrelevance",
+      "split": "holdout",
+      "messages": [
+        {
+          "role": "user",
+          "content": "How many red marbles are there in a bag of 20, given the probability of drawing a red marble is 0.3?"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "probability.determine_population",
+            "description": "Calculate the population based on the probability and sample size",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "probability": {
+                  "type": "number",
+                  "description": "Probability of a certain outcome."
+                },
+                "sample_size": {
+                  "type": "integer",
+                  "description": "Total number of events in sample."
+                },
+                "round": {
+                  "type": "boolean",
+                  "description": "Should the answer be rounded up to nearest integer? Default is true"
+                }
+              },
+              "required": [
+                "probability",
+                "sample_size"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": []
+    },
+    {
+      "id": "bfcl/irrelevance_137",
+      "suite": "bfcl",
+      "category": "irrelevance",
+      "split": "holdout",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Who signed the declaration of independence?"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "historical_event.get_date",
+            "description": "Retrieve the date of a specific historical event.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "event_name": {
+                  "type": "string",
+                  "description": "The name of the historical event."
+                },
+                "event_location": {
+                  "type": "string",
+                  "description": "The location of the historical event."
+                },
+                "event_time_period": {
+                  "type": "string",
+                  "description": "The historical time period during which the event took place. (e.g., Renaissance, Middle Ages, etc.)",
+                  "default": "Renaissance"
+                }
+              },
+              "required": [
+                "event_name",
+                "event_location"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": []
+    },
+    {
+      "id": "bfcl/irrelevance_58",
+      "suite": "bfcl",
+      "category": "irrelevance",
+      "split": "holdout",
+      "messages": [
+        {
+          "role": "user",
+          "content": "How much electricity will I need for my 2000 sq ft home?"
+        }
+      ],
+      "tools": [
+        {
+          "type": "function",
+          "function": {
+            "name": "solar_panel.calculate_need",
+            "description": "Calculate the number of solar panels needed for a house based on the square footage and average sunlight hours.",
+            "parameters": {
+              "type": "object",
+              "properties": {
+                "square_footage": {
+                  "type": "number",
+                  "description": "The square footage of the house."
+                },
+                "average_sunlight_hours": {
+                  "type": "number",
+                  "description": "The average hours of sunlight received."
+                },
+                "usage_efficiency": {
+                  "type": "number",
+                  "default": 0.8,
+                  "description": "The efficiency of energy usage in the home, default is 0.8."
+                }
+              },
+              "required": [
+                "square_footage",
+                "average_sunlight_hours"
+              ]
+            }
+          }
+        }
+      ],
+      "expected": []
+    }
+  ]
+}

@@ -1,0 +1,1774 @@
+{
+  "label": "baseline-bfcl-dev",
+  "timestamp": "2026-11-03T03:41:33.959776+00:00",
+  "backend": "/Users/a1-6/Mypro/genai/GenAI2OpenAI/temp/benchmarks/baseline-source",
+  "backend_sha256": {
+    "anthropic_compat.py": "9fbe01647f053708400dff93792dc3df0b391db08fe67189cb7269a5b3bf2ece",
+    "web_search.py": "94fe5ae5f66512b90078f63fdae3583076f30284a75a30983a68cee4a19b183b",
+    "main.py": "52a3af7c3895a721517d6767c62127455b701cbb052015a98d4cbedc4229741b"
+  },
+  "dataset_sha256": "59f4cb504be6552c9ed5fed80ab872fd86a6b7e2b5970569f1b48dac6d9a4195",
+  "suite": "bfcl",
+  "split": "dev",
+  "repeats": 2,
+  "jobs": 2,
+  "scoring": "BFCL sample + strict local matcher, NOT official BFCL score. Agent tasks require verified file state and actual Python execution.",
+  "complete": true,
+  "summary": [
+    {
+      "model": "deepseek",
+      "category": "all",
+      "passed": 22,
+      "total": 24,
+      "success_rate": 0.9167,
+      "repair_requests": 0,
+      "median_seconds": 0.363,
+      "mean_prompt_chars": 3065
+    },
+    {
+      "model": "deepseek",
+      "category": "irrelevance",
+      "passed": 4,
+      "total": 6,
+      "success_rate": 0.6667,
+      "repair_requests": 0,
+      "median_seconds": 0.905,
+      "mean_prompt_chars": 2727
+    },
+    {
+      "model": "deepseek",
+      "category": "multiple",
+      "passed": 6,
+      "total": 6,
+      "success_rate": 1.0,
+      "repair_requests": 0,
+      "median_seconds": 0.32,
+      "mean_prompt_chars": 3977
+    },
+    {
+      "model": "deepseek",
+      "category": "parallel",
+      "passed": 6,
+      "total": 6,
+      "success_rate": 1.0,
+      "repair_requests": 0,
+      "median_seconds": 0.306,
+      "mean_prompt_chars": 2714
+    },
+    {
+      "model": "deepseek",
+      "category": "simple_python",
+      "passed": 6,
+      "total": 6,
+      "success_rate": 1.0,
+      "repair_requests": 0,
+      "median_seconds": 0.357,
+      "mean_prompt_chars": 2843
+    },
+    {
+      "model": "glm",
+      "category": "all",
+      "passed": 23,
+      "total": 24,
+      "success_rate": 0.9583,
+      "repair_requests": 12,
+      "median_seconds": 1.165,
+      "mean_prompt_chars": 4949
+    },
+    {
+      "model": "glm",
+      "category": "irrelevance",
+      "passed": 6,
+      "total": 6,
+      "success_rate": 1.0,
+      "repair_requests": 2,
+      "median_seconds": 2.23,
+      "mean_prompt_chars": 3890
+    },
+    {
+      "model": "glm",
+      "category": "multiple",
+      "passed": 5,
+      "total": 6,
+      "success_rate": 0.8333,
+      "repair_requests": 4,
+      "median_seconds": 1.005,
+      "mean_prompt_chars": 6979
+    },
+    {
+      "model": "glm",
+      "category": "parallel",
+      "passed": 6,
+      "total": 6,
+      "success_rate": 1.0,
+      "repair_requests": 3,
+      "median_seconds": 0.936,
+      "mean_prompt_chars": 4402
+    },
+    {
+      "model": "glm",
+      "category": "simple_python",
+      "passed": 6,
+      "total": 6,
+      "success_rate": 1.0,
+      "repair_requests": 3,
+      "median_seconds": 0.855,
+      "mean_prompt_chars": 4524
+    }
+  ],
+  "results": [
+    {
+      "id": "bfcl/parallel_21",
+      "split": "dev",
+      "category": "parallel",
+      "model": "glm",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 2,
+      "repairs": 1,
+      "seconds": 1.5487,
+      "prompt_chars": 6003,
+      "calls": [
+        {
+          "id": "call_ee015332a0f14ce6a6e1bec5",
+          "type": "function",
+          "function": {
+            "name": "law_crimes.search",
+            "arguments": "{\"crime\": \"money laundering\", \"location\": \"San Francisco\", \"year\": 2019}"
+          }
+        },
+        {
+          "id": "call_e253b21c513146a7b1172889",
+          "type": "function",
+          "function": {
+            "name": "law_crimes.search",
+            "arguments": "{\"crime\": \"money laundering\", \"location\": \"Texas\", \"year\": 2018}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "",
+          "finish_reason": "tool_calls",
+          "prompt_chars": 2724,
+          "seconds": 0.8254
+        },
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"law_crimes.search\",\"arguments\":{\"crime\":\"money laundering\",\"location\":\"San Francisco\",\"year\":2019}},{\"name\":\"law_crimes.search\",\"arguments\":{\"crime\":\"money laundering\",\"location\":\"Texas\",\"year\":2018}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 3279,
+          "seconds": 0.7145
+        }
+      ]
+    },
+    {
+      "id": "bfcl/irrelevance_204",
+      "split": "dev",
+      "category": "irrelevance",
+      "model": "glm",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 1.7259,
+      "prompt_chars": 2735,
+      "calls": [],
+      "final": "I can help with jigsaw puzzles, but I need a bit more information. My available capability is generating a solution for a jigsaw puzzle — not creating one from scratch. To proceed, please provide:\n\n1. **The puzzle image** — a file path or image of the jigsaw puzzle you want solved.\n2. **The number of pieces** — e.g., 4, 9, 16, 100, etc.\n3. *(Optional)* **Solve method** — `brute_force` (default) or `genetic_algorithm`.\n\nFor example: \"Solve the puzzle in puzzle.png with 16 pieces.\" Once you share the image and piece count, I'll generate the solution right away.",
+      "trace": [
+        {
+          "content": "{\"final\":\"I can help with jigsaw puzzles, but I need a bit more information. My available capability is generating a solution for a jigsaw puzzle — not creating one from scratch. To proceed, please provide:\\n\\n1. **The puzzle image** — a file path or image of the jigsaw puzzle you want solved.\\n2. **The number of pieces** — e.g., 4, 9, 16, 100, etc.\\n3. *(Optional)* **Solve method** — `brute_force` (default) or `genetic_algorithm`.\\n\\nFor example: \\\"Solve the puzzle in puzzle.png with 16 pieces.\\\" Once you share the image and piece count, I'll generate the solution right away.\"}",
+          "finish_reason": "stop",
+          "prompt_chars": 2735,
+          "seconds": 1.7256
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_132",
+      "split": "dev",
+      "category": "simple_python",
+      "model": "glm",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.5298,
+      "prompt_chars": 2850,
+      "calls": [
+        {
+          "id": "call_2858b4b524d3498c9eb779f7",
+          "type": "function",
+          "function": {
+            "name": "calculate_return_on_equity",
+            "arguments": "{\"net_income\": 2000000, \"shareholder_equity\": 10000000, \"dividends_paid\": 200000}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"calculate_return_on_equity\",\"arguments\":{\"net_income\":2000000,\"shareholder_equity\":10000000,\"dividends_paid\":200000}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2850,
+          "seconds": 0.5292
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_37",
+      "split": "dev",
+      "category": "multiple",
+      "model": "deepseek",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.3182,
+      "prompt_chars": 3861,
+      "calls": [
+        {
+          "id": "call_1e4b277647c64b269671b07b",
+          "type": "function",
+          "function": {
+            "name": "kinematics.final_velocity",
+            "arguments": "{\"initial_velocity\": 40, \"time\": 6}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"kinematics.final_velocity\",\"arguments\":{\"initial_velocity\":40,\"time\":6}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 3861,
+          "seconds": 0.3174
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_155",
+      "split": "dev",
+      "category": "simple_python",
+      "model": "glm",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 2,
+      "repairs": 1,
+      "seconds": 1.5149,
+      "prompt_chars": 6423,
+      "calls": [
+        {
+          "id": "call_d9df2999282b4ed88b089f4d",
+          "type": "function",
+          "function": {
+            "name": "calculate_future_value",
+            "arguments": "{\"initial_investment\": 1000, \"interest_rate\": 0.05, \"duration\": 2}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "",
+          "finish_reason": "tool_calls",
+          "prompt_chars": 2934,
+          "seconds": 0.77
+        },
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"calculate_future_value\",\"arguments\":{\"initial_investment\":1000,\"interest_rate\":0.05,\"duration\":2}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 3489,
+          "seconds": 0.741
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_283",
+      "split": "dev",
+      "category": "simple_python",
+      "model": "glm",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 2,
+      "repairs": 1,
+      "seconds": 1.2293,
+      "prompt_chars": 6045,
+      "calls": [
+        {
+          "id": "call_7bb303f1b80e447084cfe7fb",
+          "type": "function",
+          "function": {
+            "name": "guitar_price.find",
+            "arguments": "{\"model\": \"Gibson Les Paul\", \"condition\": \"Excellent\", \"location\": \"Chicago\"}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "",
+          "finish_reason": "tool_calls",
+          "prompt_chars": 2745,
+          "seconds": 0.6107
+        },
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"guitar_price.find\",\"arguments\":{\"model\":\"Gibson Les Paul\",\"condition\":\"Excellent\",\"location\":\"Chicago\"}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 3300,
+          "seconds": 0.6151
+        }
+      ]
+    },
+    {
+      "id": "bfcl/irrelevance_35",
+      "split": "dev",
+      "category": "irrelevance",
+      "model": "glm",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 2.1738,
+      "prompt_chars": 2678,
+      "calls": [],
+      "final": "Lions have a distinctive mating process shaped by their social structure (prides) and the female's reproductive cycle. Here's an overview:\n\n**Courtship and Pairing**\n- When a female lion (lioness) comes into estrus (heat), which occurs every 2–3 weeks, males in the pride detect it through behavioral and scent cues.\n- The dominant male(s) of the pride typically mate with receptive females, though females may sometimes mate with outside males.\n\n**Mating Behavior**\n- Lion mating is frequent and intense: a pair may copulate 20–40 times per day, sometimes up to 100 times, over a period of 4–7 days while the female is in estrus.\n- Each copulation is brief, lasting only about 10–20 seconds.\n- During mating, the male often bites the female's neck (the 'neck grip') to keep her still — this may also stimulate ovulation.\n- The female may become aggressive after mating, swatting or snapping at the male, and the pair typically rests between copulations.\n\n**Why So Frequent?**\n- Female lions are induced ovulators, meaning mating itself triggers the release of eggs. Frequent copulation increases the chance of fertilization.\n\n**Reproduction and Birth**\n- The gestation period is about 110 days (roughly 3.5 months).\n- Before giving birth, the lioness leaves the pride to give birth in a secluded den, usually to a litter of 2–4 cubs.\n- She keeps the cubs hidden for the first 6–8 weeks before reintroducing them to the pride.\n\n**Competitive Aspects**\n- When new males take over a pride, they often kill the existing cubs (infanticide) to bring females back into estrus sooner and sire their own offspring.",
+      "trace": [
+        {
+          "content": "{\"final\":\"Lions have a distinctive mating process shaped by their social structure (prides) and the female's reproductive cycle. Here's an overview:\\n\\n**Courtship and Pairing**\\n- When a female lion (lioness) comes into estrus (heat), which occurs every 2–3 weeks, males in the pride detect it through behavioral and scent cues.\\n- The dominant male(s) of the pride typically mate with receptive females, though females may sometimes mate with outside males.\\n\\n**Mating Behavior**\\n- Lion mating is frequent and intense: a pair may copulate 20–40 times per day, sometimes up to 100 times, over a period of 4–7 days while the female is in estrus.\\n- Each copulation is brief, lasting only about 10–20 seconds.\\n- During mating, the male often bites the female's neck (the 'neck grip') to keep her still — this may also stimulate ovulation.\\n- The female may become aggressive after mating, swatting or snapping at the male, and the pair typically rests between copulations.\\n\\n**Why So Frequent?**\\n- Female lions are induced ovulators, meaning mating itself triggers the release of eggs. Frequent copulation increases the chance of fertilization.\\n\\n**Reproduction and Birth**\\n- The gestation period is about 110 days (roughly 3.5 months).\\n- Before giving birth, the lioness leaves the pride to give birth in a secluded den, usually to a litter of 2–4 cubs.\\n- She keeps the cubs hidden for the first 6–8 weeks before reintroducing them to the pride.\\n\\n**Competitive Aspects**\\n- When new males take over a pride, they often kill the existing cubs (infanticide) to bring females back into estrus sooner and sire their own offspring.\"}",
+          "finish_reason": "stop",
+          "prompt_chars": 2678,
+          "seconds": 2.1733
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_0",
+      "split": "dev",
+      "category": "multiple",
+      "model": "glm",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.8105,
+      "prompt_chars": 4073,
+      "calls": [
+        {
+          "id": "call_4b469eba0663495981f7886d",
+          "type": "function",
+          "function": {
+            "name": "triangle_properties.get",
+            "arguments": "{\"side1\": 5, \"side2\": 4, \"side3\": 3}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"triangle_properties.get\",\"arguments\":{\"side1\":5,\"side2\":4,\"side3\":3}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 4073,
+          "seconds": 0.8098
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_155",
+      "split": "dev",
+      "category": "simple_python",
+      "model": "deepseek",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.273,
+      "prompt_chars": 2934,
+      "calls": [
+        {
+          "id": "call_2f0dadc6aa304b52b9ba0bf3",
+          "type": "function",
+          "function": {
+            "name": "calculate_future_value",
+            "arguments": "{\"initial_investment\": 1000, \"interest_rate\": 0.05, \"duration\": 2}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"calculate_future_value\",\"arguments\":{\"initial_investment\":1000,\"interest_rate\":0.05,\"duration\":2}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2934,
+          "seconds": 0.2722
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_192",
+      "split": "dev",
+      "category": "parallel",
+      "model": "glm",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.7691,
+      "prompt_chars": 2729,
+      "calls": [
+        {
+          "id": "call_f7f43cf1a0f94355aa9135e8",
+          "type": "function",
+          "function": {
+            "name": "get_news",
+            "arguments": "{\"topic\": \"Climate Change\", \"quantity\": 5, \"region\": \"Europe\"}"
+          }
+        },
+        {
+          "id": "call_e06b5887c1d74534a2e84f3b",
+          "type": "function",
+          "function": {
+            "name": "get_news",
+            "arguments": "{\"topic\": \"Artificial Intelligence\", \"quantity\": 5, \"region\": \"Europe\"}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"get_news\",\"arguments\":{\"topic\":\"Climate Change\",\"quantity\":5,\"region\":\"Europe\"}},{\"name\":\"get_news\",\"arguments\":{\"topic\":\"Artificial Intelligence\",\"quantity\":5,\"region\":\"Europe\"}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2729,
+          "seconds": 0.7683
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_132",
+      "split": "dev",
+      "category": "simple_python",
+      "model": "deepseek",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.3446,
+      "prompt_chars": 2850,
+      "calls": [
+        {
+          "id": "call_a4a8aa1e5a474048a878d305",
+          "type": "function",
+          "function": {
+            "name": "calculate_return_on_equity",
+            "arguments": "{\"net_income\": 2000000, \"shareholder_equity\": 10000000, \"dividends_paid\": 200000}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"calculate_return_on_equity\",\"arguments\":{\"net_income\":2000000,\"shareholder_equity\":10000000,\"dividends_paid\":200000}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2850,
+          "seconds": 0.3441
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_0",
+      "split": "dev",
+      "category": "multiple",
+      "model": "deepseek",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.2658,
+      "prompt_chars": 4073,
+      "calls": [
+        {
+          "id": "call_58b5345d88864672b501d634",
+          "type": "function",
+          "function": {
+            "name": "triangle_properties.get",
+            "arguments": "{\"side1\": 5, \"side2\": 4, \"side3\": 3}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"triangle_properties.get\",\"arguments\":{\"side1\":5,\"side2\":4,\"side3\":3}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 4073,
+          "seconds": 0.2654
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_155",
+      "split": "dev",
+      "category": "simple_python",
+      "model": "glm",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.4611,
+      "prompt_chars": 2934,
+      "calls": [
+        {
+          "id": "call_d6cd804df7d149da848df2af",
+          "type": "function",
+          "function": {
+            "name": "calculate_future_value",
+            "arguments": "{\"initial_investment\": 1000, \"interest_rate\": 0.05, \"duration\": 2}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"calculate_future_value\",\"arguments\":{\"initial_investment\":1000,\"interest_rate\":0.05,\"duration\":2}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2934,
+          "seconds": 0.4604
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_0",
+      "split": "dev",
+      "category": "multiple",
+      "model": "glm",
+      "repeat": 1,
+      "passed": false,
+      "error": "RuntimeError: GenAI did not return a valid tool response after one protocol correction",
+      "turns": 1,
+      "model_requests": 2,
+      "repairs": 1,
+      "seconds": 0.9555,
+      "prompt_chars": 8701,
+      "calls": [],
+      "final": "",
+      "trace": [
+        {
+          "content": "",
+          "finish_reason": "tool_calls",
+          "prompt_chars": 4073,
+          "seconds": 0.4226
+        },
+        {
+          "content": "",
+          "finish_reason": "tool_calls",
+          "prompt_chars": 4628,
+          "seconds": 0.53
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_192",
+      "split": "dev",
+      "category": "parallel",
+      "model": "deepseek",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.4067,
+      "prompt_chars": 2729,
+      "calls": [
+        {
+          "id": "call_b746cc2a11604d8599c19bcc",
+          "type": "function",
+          "function": {
+            "name": "get_news",
+            "arguments": "{\"topic\": \"Climate Change\", \"quantity\": 5, \"region\": \"Europe\"}"
+          }
+        },
+        {
+          "id": "call_38b00520512d4d7d8334b299",
+          "type": "function",
+          "function": {
+            "name": "get_news",
+            "arguments": "{\"topic\": \"Artificial Intelligence\", \"quantity\": 5, \"region\": \"Europe\"}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"get_news\",\"arguments\":{\"topic\":\"Climate Change\",\"quantity\":5,\"region\":\"Europe\"}},{\"name\":\"get_news\",\"arguments\":{\"topic\":\"Artificial Intelligence\",\"quantity\":5,\"region\":\"Europe\"}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2729,
+          "seconds": 0.406
+        }
+      ]
+    },
+    {
+      "id": "bfcl/irrelevance_204",
+      "split": "dev",
+      "category": "irrelevance",
+      "model": "deepseek",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.689,
+      "prompt_chars": 2735,
+      "calls": [],
+      "final": "I can help solve an existing jigsaw puzzle image, but my available tool (`game_functions.solve_jigsaw`) only generates a solution for a puzzle image you already have — it can't create a new puzzle image from scratch.\n\nTo proceed, please provide:\n1. The path to the puzzle image file (e.g., `puzzle.png`)\n2. The number of pieces\n3. Optionally, the method: `brute_force` (default) or `genetic_algorithm`\n\nOnce you give me those, I'll run the solver.",
+      "trace": [
+        {
+          "content": "{\"final\":\"I can help solve an existing jigsaw puzzle image, but my available tool (`game_functions.solve_jigsaw`) only generates a solution for a puzzle image you already have — it can't create a new puzzle image from scratch.\\n\\nTo proceed, please provide:\\n1. The path to the puzzle image file (e.g., `puzzle.png`)\\n2. The number of pieces\\n3. Optionally, the method: `brute_force` (default) or `genetic_algorithm`\\n\\nOnce you give me those, I'll run the solver.\"}",
+          "finish_reason": "stop",
+          "prompt_chars": 2735,
+          "seconds": 0.6888
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_21",
+      "split": "dev",
+      "category": "parallel",
+      "model": "deepseek",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.3571,
+      "prompt_chars": 2724,
+      "calls": [
+        {
+          "id": "call_984ce16b87e24d59b66ab57a",
+          "type": "function",
+          "function": {
+            "name": "law_crimes.search",
+            "arguments": "{\"crime\": \"money laundering\", \"location\": \"San Francisco\", \"year\": 2019}"
+          }
+        },
+        {
+          "id": "call_0a0ecf9aa4494d0eb4fc1ca3",
+          "type": "function",
+          "function": {
+            "name": "law_crimes.search",
+            "arguments": "{\"crime\": \"money laundering\", \"location\": \"Texas\", \"year\": 2018}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"law_crimes.search\",\"arguments\":{\"crime\":\"money laundering\",\"location\":\"San Francisco\",\"year\":2019}},{\"name\":\"law_crimes.search\",\"arguments\":{\"crime\":\"money laundering\",\"location\":\"Texas\",\"year\":2018}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2724,
+          "seconds": 0.3566
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_80",
+      "split": "dev",
+      "category": "parallel",
+      "model": "deepseek",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.2737,
+      "prompt_chars": 2690,
+      "calls": [
+        {
+          "id": "call_045d818f23e44a40ac4b51cd",
+          "type": "function",
+          "function": {
+            "name": "math.gcd",
+            "arguments": "{\"num1\": 36, \"num2\": 48}"
+          }
+        },
+        {
+          "id": "call_e3ba4d3f070f4f85a5f99787",
+          "type": "function",
+          "function": {
+            "name": "math.gcd",
+            "arguments": "{\"num1\": 60, \"num2\": 96}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"math.gcd\",\"arguments\":{\"num1\":36,\"num2\":48}},{\"name\":\"math.gcd\",\"arguments\":{\"num1\":60,\"num2\":96}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2690,
+          "seconds": 0.2731
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_192",
+      "split": "dev",
+      "category": "parallel",
+      "model": "deepseek",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.2766,
+      "prompt_chars": 2729,
+      "calls": [
+        {
+          "id": "call_2f2f4852ae0e426da8b328c9",
+          "type": "function",
+          "function": {
+            "name": "get_news",
+            "arguments": "{\"topic\": \"Climate Change\", \"quantity\": 5, \"region\": \"Europe\"}"
+          }
+        },
+        {
+          "id": "call_6aed8d2b7101476fb971adf2",
+          "type": "function",
+          "function": {
+            "name": "get_news",
+            "arguments": "{\"topic\": \"Artificial Intelligence\", \"quantity\": 5, \"region\": \"Europe\"}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"get_news\",\"arguments\":{\"topic\":\"Climate Change\",\"quantity\":5,\"region\":\"Europe\"}},{\"name\":\"get_news\",\"arguments\":{\"topic\":\"Artificial Intelligence\",\"quantity\":5,\"region\":\"Europe\"}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2729,
+          "seconds": 0.276
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_0",
+      "split": "dev",
+      "category": "multiple",
+      "model": "deepseek",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.2237,
+      "prompt_chars": 4073,
+      "calls": [
+        {
+          "id": "call_c599ef5e7fb7491eb2f46e63",
+          "type": "function",
+          "function": {
+            "name": "triangle_properties.get",
+            "arguments": "{\"side1\": 5, \"side2\": 4, \"side3\": 3}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"triangle_properties.get\",\"arguments\":{\"side1\":5,\"side2\":4,\"side3\":3}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 4073,
+          "seconds": 0.223
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_80",
+      "split": "dev",
+      "category": "parallel",
+      "model": "glm",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 2,
+      "repairs": 1,
+      "seconds": 1.1027,
+      "prompt_chars": 5935,
+      "calls": [
+        {
+          "id": "call_323999eb337247e0a14288d4",
+          "type": "function",
+          "function": {
+            "name": "math.gcd",
+            "arguments": "{\"num1\": 36, \"num2\": 48}"
+          }
+        },
+        {
+          "id": "call_de521927556d4ccfb49ba947",
+          "type": "function",
+          "function": {
+            "name": "math.gcd",
+            "arguments": "{\"num1\": 60, \"num2\": 96}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "",
+          "finish_reason": "stop",
+          "prompt_chars": 2690,
+          "seconds": 0.5702
+        },
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"math.gcd\",\"arguments\":{\"num1\":36,\"num2\":48}},{\"name\":\"math.gcd\",\"arguments\":{\"num1\":60,\"num2\":96}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 3245,
+          "seconds": 0.5288
+        }
+      ]
+    },
+    {
+      "id": "bfcl/irrelevance_35",
+      "split": "dev",
+      "category": "irrelevance",
+      "model": "deepseek",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 1.1458,
+      "prompt_chars": 2678,
+      "calls": [],
+      "final": "I don't have a tool that describes lion mating behavior—my only available tool retrieves dominant/recessive genetic traits for a species, which doesn't cover reproductive behavior or mating processes. So I can't look this up with the tools I have. \n\nIn general knowledge (not from a tool): lions are polygynous; a pride's males mate with multiple females. Females signal receptivity through behavioral cues and scent, mating repeatedly over a several-day estrus period, often every 15–30 minutes. Gestation is about 110 days, after which the female gives birth to 1–4 cubs in a secluded den. If you'd like, I can instead retrieve genetic trait info for lions (e.g., coat color dominance) using the trait tool.",
+      "trace": [
+        {
+          "content": "{\"final\":\"I don't have a tool that describes lion mating behavior—my only available tool retrieves dominant/recessive genetic traits for a species, which doesn't cover reproductive behavior or mating processes. So I can't look this up with the tools I have. \\n\\nIn general knowledge (not from a tool): lions are polygynous; a pride's males mate with multiple females. Females signal receptivity through behavioral cues and scent, mating repeatedly over a several-day estrus period, often every 15–30 minutes. Gestation is about 110 days, after which the female gives birth to 1–4 cubs in a secluded den. If you'd like, I can instead retrieve genetic trait info for lions (e.g., coat color dominance) using the trait tool.\"}",
+          "finish_reason": "stop",
+          "prompt_chars": 2678,
+          "seconds": 1.1455
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_125",
+      "split": "dev",
+      "category": "multiple",
+      "model": "glm",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.6407,
+      "prompt_chars": 3997,
+      "calls": [
+        {
+          "id": "call_3101d625be7c4146bbee6320",
+          "type": "function",
+          "function": {
+            "name": "run_two_sample_ttest",
+            "arguments": "{\"group1\": [3, 4, 5, 6, 4], \"group2\": [7, 8, 9, 8, 7], \"equal_variance\": true}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"run_two_sample_ttest\",\"arguments\":{\"group1\":[3,4,5,6,4],\"group2\":[7,8,9,8,7],\"equal_variance\":true}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 3997,
+          "seconds": 0.64
+        }
+      ]
+    },
+    {
+      "id": "bfcl/irrelevance_183",
+      "split": "dev",
+      "category": "irrelevance",
+      "model": "deepseek",
+      "repeat": 0,
+      "passed": false,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 1.0676,
+      "prompt_chars": 2767,
+      "calls": [
+        {
+          "id": "call_89b1fb7498d0418982ded12b",
+          "type": "function",
+          "function": {
+            "name": "find_top_sports_celebrity",
+            "arguments": "{\"name\": \"Wimbledon Men's Singles 2021 winner\", \"year\": 2021, \"sports_type\": \"Tennis\"}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"find_top_sports_celebrity\",\"arguments\":{\"name\":\"Wimbledon Men's Singles 2021 winner\",\"year\":2021,\"sports_type\":\"Tennis\"}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2767,
+          "seconds": 1.0672
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_37",
+      "split": "dev",
+      "category": "multiple",
+      "model": "glm",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 2,
+      "repairs": 1,
+      "seconds": 1.0538,
+      "prompt_chars": 8277,
+      "calls": [
+        {
+          "id": "call_f1f4174d1a5b482191057ad8",
+          "type": "function",
+          "function": {
+            "name": "kinematics.final_velocity",
+            "arguments": "{\"initial_velocity\": 40, \"time\": 6, \"acceleration\": -9.81}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "",
+          "finish_reason": "stop",
+          "prompt_chars": 3861,
+          "seconds": 0.6033
+        },
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"kinematics.final_velocity\",\"arguments\":{\"initial_velocity\":40,\"time\":6,\"acceleration\":-9.81}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 4416,
+          "seconds": 0.4473
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_125",
+      "split": "dev",
+      "category": "multiple",
+      "model": "glm",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 2,
+      "repairs": 1,
+      "seconds": 1.2627,
+      "prompt_chars": 8549,
+      "calls": [
+        {
+          "id": "call_4b41ac2a5aaa47c790257118",
+          "type": "function",
+          "function": {
+            "name": "run_two_sample_ttest",
+            "arguments": "{\"group1\": [3, 4, 5, 6, 4], \"group2\": [7, 8, 9, 8, 7], \"equal_variance\": true}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "",
+          "finish_reason": "tool_calls",
+          "prompt_chars": 3997,
+          "seconds": 0.6691
+        },
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"run_two_sample_ttest\",\"arguments\":{\"group1\":[3,4,5,6,4],\"group2\":[7,8,9,8,7],\"equal_variance\":true}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 4552,
+          "seconds": 0.5896
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_283",
+      "split": "dev",
+      "category": "simple_python",
+      "model": "glm",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 2,
+      "repairs": 1,
+      "seconds": 1.0248,
+      "prompt_chars": 6045,
+      "calls": [
+        {
+          "id": "call_f3d741c9e38a414f896d255a",
+          "type": "function",
+          "function": {
+            "name": "guitar_price.find",
+            "arguments": "{\"model\": \"Gibson Les Paul\", \"condition\": \"Excellent\", \"location\": \"Chicago\"}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "",
+          "finish_reason": "tool_calls",
+          "prompt_chars": 2745,
+          "seconds": 0.5646
+        },
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"guitar_price.find\",\"arguments\":{\"model\":\"Gibson Les Paul\",\"condition\":\"Excellent\",\"location\":\"Chicago\"}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 3300,
+          "seconds": 0.4567
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_37",
+      "split": "dev",
+      "category": "multiple",
+      "model": "deepseek",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.4192,
+      "prompt_chars": 3861,
+      "calls": [
+        {
+          "id": "call_910a332382594b0baa259ee0",
+          "type": "function",
+          "function": {
+            "name": "kinematics.final_velocity",
+            "arguments": "{\"initial_velocity\": 40, \"time\": 6, \"acceleration\": -9.81}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"kinematics.final_velocity\",\"arguments\":{\"initial_velocity\":40,\"time\":6,\"acceleration\":-9.81}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 3861,
+          "seconds": 0.4184
+        }
+      ]
+    },
+    {
+      "id": "bfcl/irrelevance_204",
+      "split": "dev",
+      "category": "irrelevance",
+      "model": "deepseek",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.7426,
+      "prompt_chars": 2735,
+      "calls": [],
+      "final": "I can solve a jigsaw puzzle for you, but I'd need two things first:\n\n1. **The puzzle image** — the path/name of the image file you want solved (the tool only accepts an existing image file; I can't create a brand-new image puzzle from scratch with my available tools).\n2. **Number of pieces** — e.g., 9, 16, 25, 100...\n\nYou can also tell me the method (\"brute_force\" is the default, or \"genetic_algorithm\"). Once you give me the image file and piece count, I'll generate the solution.",
+      "trace": [
+        {
+          "content": "{\"final\":\"I can solve a jigsaw puzzle for you, but I'd need two things first:\\n\\n1. **The puzzle image** — the path/name of the image file you want solved (the tool only accepts an existing image file; I can't create a brand-new image puzzle from scratch with my available tools).\\n2. **Number of pieces** — e.g., 9, 16, 25, 100...\\n\\nYou can also tell me the method (\\\"brute_force\\\" is the default, or \\\"genetic_algorithm\\\"). Once you give me the image file and piece count, I'll generate the solution.\"}",
+          "finish_reason": "stop",
+          "prompt_chars": 2735,
+          "seconds": 0.7422
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_132",
+      "split": "dev",
+      "category": "simple_python",
+      "model": "deepseek",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.271,
+      "prompt_chars": 2850,
+      "calls": [
+        {
+          "id": "call_df3324802fc84594b27a9abe",
+          "type": "function",
+          "function": {
+            "name": "calculate_return_on_equity",
+            "arguments": "{\"net_income\": 2000000, \"shareholder_equity\": 10000000, \"dividends_paid\": 200000}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"calculate_return_on_equity\",\"arguments\":{\"net_income\":2000000,\"shareholder_equity\":10000000,\"dividends_paid\":200000}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2850,
+          "seconds": 0.2705
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_192",
+      "split": "dev",
+      "category": "parallel",
+      "model": "glm",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.746,
+      "prompt_chars": 2729,
+      "calls": [
+        {
+          "id": "call_e23fd6ef31fd4452ba5430f0",
+          "type": "function",
+          "function": {
+            "name": "get_news",
+            "arguments": "{\"topic\": \"Climate Change\", \"quantity\": 5, \"region\": \"Europe\"}"
+          }
+        },
+        {
+          "id": "call_4cb6e20ecf7c4c28b0577ed4",
+          "type": "function",
+          "function": {
+            "name": "get_news",
+            "arguments": "{\"topic\": \"Artificial Intelligence\", \"quantity\": 5, \"region\": \"Europe\"}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"get_news\",\"arguments\":{\"topic\":\"Climate Change\",\"quantity\":5,\"region\":\"Europe\"}},{\"name\":\"get_news\",\"arguments\":{\"topic\":\"Artificial Intelligence\",\"quantity\":5,\"region\":\"Europe\"}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2729,
+          "seconds": 0.7452
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_283",
+      "split": "dev",
+      "category": "simple_python",
+      "model": "deepseek",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 1.0728,
+      "prompt_chars": 2745,
+      "calls": [
+        {
+          "id": "call_f8665d0a93204037a804ee96",
+          "type": "function",
+          "function": {
+            "name": "guitar_price.find",
+            "arguments": "{\"model\": \"Gibson Les Paul\", \"condition\": \"Excellent\", \"location\": \"Chicago\"}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"guitar_price.find\",\"arguments\":{\"model\":\"Gibson Les Paul\",\"condition\":\"Excellent\",\"location\":\"Chicago\"}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2745,
+          "seconds": 1.0723
+        }
+      ]
+    },
+    {
+      "id": "bfcl/irrelevance_183",
+      "split": "dev",
+      "category": "irrelevance",
+      "model": "glm",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 3.0111,
+      "prompt_chars": 2767,
+      "calls": [],
+      "final": "The winner of the Wimbledon Men's Singles title in 2021 was Novak Djokovic of Serbia. He defeated Italy's Matteo Berrettini in the final 6-7(4), 6-4, 6-4, 6-3. This was Djokovic's sixth Wimbledon championship and his 20th Grand Slam title, which at the time tied him with Roger Federer and Rafael Nadal for the most men's major singles titles in tennis history.",
+      "trace": [
+        {
+          "content": "{\"final\":\"The winner of the Wimbledon Men's Singles title in 2021 was Novak Djokovic of Serbia. He defeated Italy's Matteo Berrettini in the final 6-7(4), 6-4, 6-4, 6-3. This was Djokovic's sixth Wimbledon championship and his 20th Grand Slam title, which at the time tied him with Roger Federer and Rafael Nadal for the most men's major singles titles in tennis history.\"}",
+          "finish_reason": "stop",
+          "prompt_chars": 2767,
+          "seconds": 3.0108
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_80",
+      "split": "dev",
+      "category": "parallel",
+      "model": "deepseek",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.3003,
+      "prompt_chars": 2690,
+      "calls": [
+        {
+          "id": "call_cbc4b612e4ea471fa1efa1e0",
+          "type": "function",
+          "function": {
+            "name": "math.gcd",
+            "arguments": "{\"num1\": 36, \"num2\": 48}"
+          }
+        },
+        {
+          "id": "call_43099004cc8845218ff8d721",
+          "type": "function",
+          "function": {
+            "name": "math.gcd",
+            "arguments": "{\"num1\": 60, \"num2\": 96}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"math.gcd\",\"arguments\":{\"num1\":36,\"num2\":48}},{\"name\":\"math.gcd\",\"arguments\":{\"num1\":60,\"num2\":96}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2690,
+          "seconds": 0.2997
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_21",
+      "split": "dev",
+      "category": "parallel",
+      "model": "glm",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.596,
+      "prompt_chars": 2724,
+      "calls": [
+        {
+          "id": "call_16a68c6746c64e85957582ae",
+          "type": "function",
+          "function": {
+            "name": "law_crimes.search",
+            "arguments": "{\"crime\": \"money laundering\", \"location\": \"San Francisco\", \"year\": 2019}"
+          }
+        },
+        {
+          "id": "call_71f71fdb1ba649eaa2362aff",
+          "type": "function",
+          "function": {
+            "name": "law_crimes.search",
+            "arguments": "{\"crime\": \"money laundering\", \"location\": \"Texas\", \"year\": 2018}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"law_crimes.search\",\"arguments\":{\"crime\":\"money laundering\",\"location\":\"San Francisco\",\"year\":2019}},{\"name\":\"law_crimes.search\",\"arguments\":{\"crime\":\"money laundering\",\"location\":\"Texas\",\"year\":2018}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2724,
+          "seconds": 0.5953
+        }
+      ]
+    },
+    {
+      "id": "bfcl/irrelevance_183",
+      "split": "dev",
+      "category": "irrelevance",
+      "model": "glm",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 1.7094,
+      "prompt_chars": 2767,
+      "calls": [],
+      "final": "The winner of the Wimbledon Men's Singles title in 2021 was Novak Djokovic of Serbia. He defeated Italy's Matteo Berrettini in the final 6–7(4), 6–4, 6–4, 6–3 to claim his sixth Wimbledon championship and his 20th Grand Slam title overall, tying Roger Federer and Rafael Nadal for the most men's major singles titles at the time.",
+      "trace": [
+        {
+          "content": "{\"final\":\"The winner of the Wimbledon Men's Singles title in 2021 was Novak Djokovic of Serbia. He defeated Italy's Matteo Berrettini in the final 6–7(4), 6–4, 6–4, 6–3 to claim his sixth Wimbledon championship and his 20th Grand Slam title overall, tying Roger Federer and Rafael Nadal for the most men's major singles titles at the time.\"}",
+          "finish_reason": "stop",
+          "prompt_chars": 2767,
+          "seconds": 1.7092
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_283",
+      "split": "dev",
+      "category": "simple_python",
+      "model": "deepseek",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.3685,
+      "prompt_chars": 2745,
+      "calls": [
+        {
+          "id": "call_7de985cfe29c42ce9d92f769",
+          "type": "function",
+          "function": {
+            "name": "guitar_price.find",
+            "arguments": "{\"model\": \"Gibson Les Paul\", \"condition\": \"Excellent\", \"location\": \"Chicago\"}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"guitar_price.find\",\"arguments\":{\"model\":\"Gibson Les Paul\",\"condition\":\"Excellent\",\"location\":\"Chicago\"}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2745,
+          "seconds": 0.3678
+        }
+      ]
+    },
+    {
+      "id": "bfcl/irrelevance_183",
+      "split": "dev",
+      "category": "irrelevance",
+      "model": "deepseek",
+      "repeat": 1,
+      "passed": false,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.4951,
+      "prompt_chars": 2767,
+      "calls": [
+        {
+          "id": "call_f9d081b142ed4bb180b34f34",
+          "type": "function",
+          "function": {
+            "name": "find_top_sports_celebrity",
+            "arguments": "{\"name\": \"Novak Djokovic\", \"year\": 2021, \"sports_type\": \"Tennis\"}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"find_top_sports_celebrity\",\"arguments\":{\"name\":\"Novak Djokovic\",\"year\":2021,\"sports_type\":\"Tennis\"}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2767,
+          "seconds": 0.4947
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_37",
+      "split": "dev",
+      "category": "multiple",
+      "model": "glm",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 2,
+      "repairs": 1,
+      "seconds": 1.2268,
+      "prompt_chars": 8277,
+      "calls": [
+        {
+          "id": "call_8851016b489f453792db7480",
+          "type": "function",
+          "function": {
+            "name": "kinematics.final_velocity",
+            "arguments": "{\"initial_velocity\": 40, \"time\": 6, \"acceleration\": -9.81}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "",
+          "finish_reason": "tool_calls",
+          "prompt_chars": 3861,
+          "seconds": 0.737
+        },
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"kinematics.final_velocity\",\"arguments\":{\"initial_velocity\":40,\"time\":6,\"acceleration\":-9.81}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 4416,
+          "seconds": 0.4863
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_132",
+      "split": "dev",
+      "category": "simple_python",
+      "model": "glm",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.6859,
+      "prompt_chars": 2850,
+      "calls": [
+        {
+          "id": "call_53addfdc090148b98fcb8ea6",
+          "type": "function",
+          "function": {
+            "name": "calculate_return_on_equity",
+            "arguments": "{\"net_income\": 2000000, \"shareholder_equity\": 10000000, \"dividends_paid\": 200000}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"calculate_return_on_equity\",\"arguments\":{\"net_income\":2000000,\"shareholder_equity\":10000000,\"dividends_paid\":200000}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2850,
+          "seconds": 0.6853
+        }
+      ]
+    },
+    {
+      "id": "bfcl/irrelevance_35",
+      "split": "dev",
+      "category": "irrelevance",
+      "model": "deepseek",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 2.7987,
+      "prompt_chars": 2678,
+      "calls": [],
+      "final": "Lions reproduce through a polygynous mating system typically centered on a pride's coalition of males. Here's an overview of the process:\n\n**1. Reproduction timing**\nLions are induced ovulators, meaning the act of mating itself triggers ovulation. Females (lionesses) come into estrus (heat) roughly every 2–3 weeks, lasting about 4–7 days, and can breed year-round.\n\n**2. Courtship and mating**\n- A lioness in estrus signals interest by approaching males, rubbing against them, and presenting her hindquarters.\n- Mating is brief (a few seconds) but repeated frequently — often every 15–20 minutes over several days, totaling dozens to hundreds of copulations.\n- The male mounts, grips the female's neck, and after ejaculation she often turns on him with a swipe or growl. This post-copulation aggression is normal and may help stimulate ovulation.\n- Females typically mate with multiple males in or around the pride, which creates paternity uncertainty and reduces the likelihood that males will kill cubs.\n\n**3. Gestation and birth**\n- Gestation lasts about 110 days (around 3.5 months).\n- The lioness leaves the pride to give birth in a secluded den (bush, rock crevice, thicket).\n- Litter size is usually 2–4 cubs (range 1–6). Cubs are born blind and helpless, opening their eyes around 2 weeks.\n- She keeps them hidden for 6–8 weeks before introducing them to the pride.\n\n**4. Cub-rearing**\n- Lionesses in a pride often synchronize births, and females will nurse each other's cubs (communal nursing).\n- Cubs are weaned around 6–7 months and begin eating meat earlier; they stay dependent for up to 2 years.\n- Male cubs are often evicted from the pride as subadults (around 2–3 years) and form nomadic coalitions.\n\n**5. Male takeover dynamics**\nWhen a new coalition of males takes over a pride, they typically kill existing cubs (infanticide). This brings lionesses back into estrus sooner, allowing the new males to sire their own offspring — a key evolutionary driver of the repeated-mating and multi-male mating strategies described above.\n\nIn short: induced ovulation + frequent, repeated copulation over a few days, multi-male mating, a ~110-day gestation, and a cooperative pride rearing system, with infanticide by incoming males shaping the reproductive strategy.",
+      "trace": [
+        {
+          "content": "{\"final\":\"Lions reproduce through a polygynous mating system typically centered on a pride's coalition of males. Here's an overview of the process:\\n\\n**1. Reproduction timing**\\nLions are induced ovulators, meaning the act of mating itself triggers ovulation. Females (lionesses) come into estrus (heat) roughly every 2–3 weeks, lasting about 4–7 days, and can breed year-round.\\n\\n**2. Courtship and mating**\\n- A lioness in estrus signals interest by approaching males, rubbing against them, and presenting her hindquarters.\\n- Mating is brief (a few seconds) but repeated frequently — often every 15–20 minutes over several days, totaling dozens to hundreds of copulations.\\n- The male mounts, grips the female's neck, and after ejaculation she often turns on him with a swipe or growl. This post-copulation aggression is normal and may help stimulate ovulation.\\n- Females typically mate with multiple males in or around the pride, which creates paternity uncertainty and reduces the likelihood that males will kill cubs.\\n\\n**3. Gestation and birth**\\n- Gestation lasts about 110 days (around 3.5 months).\\n- The lioness leaves the pride to give birth in a secluded den (bush, rock crevice, thicket).\\n- Litter size is usually 2–4 cubs (range 1–6). Cubs are born blind and helpless, opening their eyes around 2 weeks.\\n- She keeps them hidden for 6–8 weeks before introducing them to the pride.\\n\\n**4. Cub-rearing**\\n- Lionesses in a pride often synchronize births, and females will nurse each other's cubs (communal nursing).\\n- Cubs are weaned around 6–7 months and begin eating meat earlier; they stay dependent for up to 2 years.\\n- Male cubs are often evicted from the pride as subadults (around 2–3 years) and form nomadic coalitions.\\n\\n**5. Male takeover dynamics**\\nWhen a new coalition of males takes over a pride, they typically kill existing cubs (infanticide). This brings lionesses back into estrus sooner, allowing the new males to sire their own offspring — a key evolutionary driver of the repeated-mating and multi-male mating strategies described above.\\n\\nIn short: induced ovulation + frequent, repeated copulation over a few days, multi-male mating, a ~110-day gestation, and a cooperative pride rearing system, with infanticide by incoming males shaping the reproductive strategy.\"}",
+          "finish_reason": "stop",
+          "prompt_chars": 2678,
+          "seconds": 2.7984
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_125",
+      "split": "dev",
+      "category": "multiple",
+      "model": "deepseek",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.3219,
+      "prompt_chars": 3997,
+      "calls": [
+        {
+          "id": "call_f6307b6d85f1479fbebafb7c",
+          "type": "function",
+          "function": {
+            "name": "run_two_sample_ttest",
+            "arguments": "{\"group1\": [3, 4, 5, 6, 4], \"group2\": [7, 8, 9, 8, 7], \"equal_variance\": true}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"run_two_sample_ttest\",\"arguments\":{\"group1\":[3,4,5,6,4],\"group2\":[7,8,9,8,7],\"equal_variance\":true}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 3997,
+          "seconds": 0.3209
+        }
+      ]
+    },
+    {
+      "id": "bfcl/multiple_125",
+      "split": "dev",
+      "category": "multiple",
+      "model": "deepseek",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.3918,
+      "prompt_chars": 3997,
+      "calls": [
+        {
+          "id": "call_4699bb3228bf46969f0426a1",
+          "type": "function",
+          "function": {
+            "name": "run_two_sample_ttest",
+            "arguments": "{\"group1\": [3, 4, 5, 6, 4], \"group2\": [7, 8, 9, 8, 7], \"equal_variance\": true}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "\n\n{\"tool_calls\":[{\"name\":\"run_two_sample_ttest\",\"arguments\":{\"group1\":[3,4,5,6,4],\"group2\":[7,8,9,8,7],\"equal_variance\":true}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 3997,
+          "seconds": 0.3907
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_80",
+      "split": "dev",
+      "category": "parallel",
+      "model": "glm",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 2,
+      "repairs": 1,
+      "seconds": 1.7421,
+      "prompt_chars": 6292,
+      "calls": [
+        {
+          "id": "call_efddaa873a4c4827b65128a6",
+          "type": "function",
+          "function": {
+            "name": "math.gcd",
+            "arguments": "{\"num1\": 36, \"num2\": 48}"
+          }
+        },
+        {
+          "id": "call_5feed75a50ed4deb8f6eeb88",
+          "type": "function",
+          "function": {
+            "name": "math.gcd",
+            "arguments": "{\"num1\": 60, \"num2\": 96}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "Here are the results for John and Mary:\n\n**John's numbers: 36 and 48**\n- GCD(36, 48) = **12**\n- 36 = 2² × 3², 48 = 2⁴ × 3 → common factors: 2² × 3 = 12\n\n**Mary's numbers: 60 and 96**\n- GCD(60, 96) = **12**\n- 60 = 2² × 3 × 5, 96 = 2⁵ × 3 → common factors: 2² × 3 = 12\n\nFun coincidence — both players' pairs of numbers have the same greatest common divisor: **12**!",
+          "finish_reason": "stop",
+          "prompt_chars": 2690,
+          "seconds": 1.0242
+        },
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"math.gcd\",\"arguments\":{\"num1\":36,\"num2\":48}},{\"name\":\"math.gcd\",\"arguments\":{\"num1\":60,\"num2\":96}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 3602,
+          "seconds": 0.7142
+        }
+      ]
+    },
+    {
+      "id": "bfcl/irrelevance_35",
+      "split": "dev",
+      "category": "irrelevance",
+      "model": "glm",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 2,
+      "repairs": 1,
+      "seconds": 7.9549,
+      "prompt_chars": 5911,
+      "calls": [],
+      "final": "Lions (Panthera leo) have a distinctive mating process shaped by their social pride structure:\n\n1. **Social structure**: Lions are polygynous — a pride typically consists of related females, their cubs, and one or more dominant adult males who mate with the females.\n\n2. **Estrus (heat)**: A female comes into estrus roughly every 16 days, with the receptive period lasting about 3–4 days. During this time she signals readiness through behaviors like rubbing against the male, crouching, presenting, and circling him.\n\n3. **Courtship**: The pair often withdraws from the pride. They stay close together, and the female typically initiates mating by approaching and assuming a crouched position.\n\n4. **Copulation**: Lion mating is frequent but brief — couples may copulate 20–40 times per day (sometimes over 100), with each act lasting only about 10–20 seconds. The male usually grips the female's neck lightly with his teeth during mounting.\n\n5. **Induced ovulation**: Like other cats, lions have barbed penises, and the stimulation of mating triggers the female to ovulate. The high frequency of copulation helps ensure ovulation and fertilization. The female may react to the spines with a growl or a swat afterward.\n\n6. **Pregnancy and birth**: Gestation lasts about 110 days, after which the female gives birth to a litter of 1–4 cubs (usually away from the pride, in concealed dens).\n\n7. **Takeovers**: When new males take over a pride, they often kill the existing cubs, which brings the females back into estrus so the new males can sire their own offspring.",
+      "trace": [
+        {
+          "content": "",
+          "finish_reason": "tool_calls",
+          "prompt_chars": 2678,
+          "seconds": 4.6817
+        },
+        {
+          "content": "{\"final\":\"Lions (Panthera leo) have a distinctive mating process shaped by their social pride structure:\\n\\n1. **Social structure**: Lions are polygynous — a pride typically consists of related females, their cubs, and one or more dominant adult males who mate with the females.\\n\\n2. **Estrus (heat)**: A female comes into estrus roughly every 16 days, with the receptive period lasting about 3–4 days. During this time she signals readiness through behaviors like rubbing against the male, crouching, presenting, and circling him.\\n\\n3. **Courtship**: The pair often withdraws from the pride. They stay close together, and the female typically initiates mating by approaching and assuming a crouched position.\\n\\n4. **Copulation**: Lion mating is frequent but brief — couples may copulate 20–40 times per day (sometimes over 100), with each act lasting only about 10–20 seconds. The male usually grips the female's neck lightly with his teeth during mounting.\\n\\n5. **Induced ovulation**: Like other cats, lions have barbed penises, and the stimulation of mating triggers the female to ovulate. The high frequency of copulation helps ensure ovulation and fertilization. The female may react to the spines with a growl or a swat afterward.\\n\\n6. **Pregnancy and birth**: Gestation lasts about 110 days, after which the female gives birth to a litter of 1–4 cubs (usually away from the pride, in concealed dens).\\n\\n7. **Takeovers**: When new males take over a pride, they often kill the existing cubs, which brings the females back into estrus so the new males can sire their own offspring.\"}",
+          "finish_reason": "stop",
+          "prompt_chars": 3233,
+          "seconds": 3.2697
+        }
+      ]
+    },
+    {
+      "id": "bfcl/parallel_21",
+      "split": "dev",
+      "category": "parallel",
+      "model": "deepseek",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.3109,
+      "prompt_chars": 2724,
+      "calls": [
+        {
+          "id": "call_8101fe8fddd446349dd986da",
+          "type": "function",
+          "function": {
+            "name": "law_crimes.search",
+            "arguments": "{\"crime\": \"money laundering\", \"location\": \"San Francisco\", \"year\": 2019}"
+          }
+        },
+        {
+          "id": "call_49cb554e1bec489288dad025",
+          "type": "function",
+          "function": {
+            "name": "law_crimes.search",
+            "arguments": "{\"crime\": \"money laundering\", \"location\": \"Texas\", \"year\": 2018}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"law_crimes.search\",\"arguments\":{\"crime\":\"money laundering\",\"location\":\"San Francisco\",\"year\":2019}},{\"name\":\"law_crimes.search\",\"arguments\":{\"crime\":\"money laundering\",\"location\":\"Texas\",\"year\":2018}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2724,
+          "seconds": 0.3102
+        }
+      ]
+    },
+    {
+      "id": "bfcl/simple_python_155",
+      "split": "dev",
+      "category": "simple_python",
+      "model": "deepseek",
+      "repeat": 0,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 1,
+      "repairs": 0,
+      "seconds": 0.3869,
+      "prompt_chars": 2934,
+      "calls": [
+        {
+          "id": "call_d5eba8e4f092459191fd0012",
+          "type": "function",
+          "function": {
+            "name": "calculate_future_value",
+            "arguments": "{\"initial_investment\": 1000, \"interest_rate\": 0.05, \"duration\": 2}"
+          }
+        }
+      ],
+      "final": "",
+      "trace": [
+        {
+          "content": "{\"tool_calls\":[{\"name\":\"calculate_future_value\",\"arguments\":{\"initial_investment\":1000,\"interest_rate\":0.05,\"duration\":2}}]}",
+          "finish_reason": "stop",
+          "prompt_chars": 2934,
+          "seconds": 0.3863
+        }
+      ]
+    },
+    {
+      "id": "bfcl/irrelevance_204",
+      "split": "dev",
+      "category": "irrelevance",
+      "model": "glm",
+      "repeat": 1,
+      "passed": true,
+      "error": null,
+      "turns": 1,
+      "model_requests": 2,
+      "repairs": 1,
+      "seconds": 2.2855,
+      "prompt_chars": 6484,
+      "calls": [],
+      "final": "I can't create a jigsaw puzzle from scratch — the only tool available to me generates a solution for an existing jigsaw puzzle. To do that, I need two things from you: (1) the puzzle image file, and (2) the number of pieces. Optionally, you can also choose a solve method: 'brute_force' (default) or 'genetic_algorithm'. Please provide the puzzle image and piece count, and I'll generate the solution.",
+      "trace": [
+        {
+          "content": "I'd be happy to help! Just to clarify: I don't have a tool that creates a jigsaw puzzle from scratch, but I can generate a solution for a jigsaw puzzle if you provide:\n\n1. **A puzzle image** — the image file (path or reference) of the jigsaw puzzle\n2. **The number of pieces** — e.g., 100, 500, 1000\n3. *(Optional)* **Solving method** — `brute_force` (default) or `genetic_algorithm`\n\nOnce you share the image and piece count, I'll generate the puzzle solution for you.",
+          "finish_reason": "stop",
+          "prompt_chars": 2735,
+          "seconds": 1.2624
+        },
+        {
+          "content": "{\"final\":\"I can't create a jigsaw puzzle from scratch — the only tool available to me generates a solution for an existing jigsaw puzzle. To do that, I need two things from you: (1) the puzzle image file, and (2) the number of pieces. Optionally, you can also choose a solve method: 'brute_force' (default) or 'genetic_algorithm'. Please provide the puzzle image and piece count, and I'll generate the solution.\"}",
+          "finish_reason": "stop",
+          "prompt_chars": 3749,
+          "seconds": 1.0202
+        }
+      ]
+    }
+  ]
+}

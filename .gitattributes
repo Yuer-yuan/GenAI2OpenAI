@@ -1,0 +1,2 @@
+# Unified patch fixtures contain significant whitespace context prefixes.
+*.patch -whitespace

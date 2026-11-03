@@ -1,0 +1,1472 @@
+{
+  "generated_at": "2026-11-03T04:05:15.276994+00:00",
+  "matched_attempts": 144,
+  "tables": {
+    "all": [
+      {
+        "model": "deepseek",
+        "category": "all",
+        "before": {
+          "model": "deepseek",
+          "category": "all",
+          "passed": 59,
+          "total": 72,
+          "success_rate": 0.8194,
+          "repair_requests": 18,
+          "median_seconds": 0.412,
+          "mean_prompt_chars": 5266
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "all",
+          "passed": 67,
+          "total": 72,
+          "success_rate": 0.9306,
+          "repair_requests": 15,
+          "median_seconds": 0.367,
+          "mean_prompt_chars": 6187
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "continuation",
+        "before": {
+          "model": "deepseek",
+          "category": "continuation",
+          "passed": 16,
+          "total": 16,
+          "success_rate": 1.0,
+          "repair_requests": 1,
+          "median_seconds": 0.389,
+          "mean_prompt_chars": 2857
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "continuation",
+          "passed": 16,
+          "total": 16,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.281,
+          "mean_prompt_chars": 2748
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "execution",
+        "before": {
+          "model": "deepseek",
+          "category": "execution",
+          "passed": 3,
+          "total": 8,
+          "success_rate": 0.375,
+          "repair_requests": 16,
+          "median_seconds": 2.06,
+          "mean_prompt_chars": 22951
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "execution",
+          "passed": 8,
+          "total": 8,
+          "success_rate": 1.0,
+          "repair_requests": 15,
+          "median_seconds": 3.271,
+          "mean_prompt_chars": 32410
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "irrelevance",
+        "before": {
+          "model": "deepseek",
+          "category": "irrelevance",
+          "passed": 8,
+          "total": 12,
+          "success_rate": 0.6667,
+          "repair_requests": 1,
+          "median_seconds": 0.905,
+          "mean_prompt_chars": 3105
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "irrelevance",
+          "passed": 9,
+          "total": 12,
+          "success_rate": 0.75,
+          "repair_requests": 0,
+          "median_seconds": 0.574,
+          "mean_prompt_chars": 2702
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "multiple",
+        "before": {
+          "model": "deepseek",
+          "category": "multiple",
+          "passed": 12,
+          "total": 12,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.324,
+          "mean_prompt_chars": 3776
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "multiple",
+          "passed": 12,
+          "total": 12,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.307,
+          "mean_prompt_chars": 3624
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "parallel",
+        "before": {
+          "model": "deepseek",
+          "category": "parallel",
+          "passed": 9,
+          "total": 12,
+          "success_rate": 0.75,
+          "repair_requests": 0,
+          "median_seconds": 0.392,
+          "mean_prompt_chars": 2785
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "parallel",
+          "passed": 10,
+          "total": 12,
+          "success_rate": 0.8333,
+          "repair_requests": 0,
+          "median_seconds": 0.384,
+          "mean_prompt_chars": 2748
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "simple_python",
+        "before": {
+          "model": "deepseek",
+          "category": "simple_python",
+          "passed": 11,
+          "total": 12,
+          "success_rate": 0.9167,
+          "repair_requests": 0,
+          "median_seconds": 0.357,
+          "mean_prompt_chars": 2821
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "simple_python",
+          "passed": 12,
+          "total": 12,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.288,
+          "mean_prompt_chars": 2778
+        }
+      },
+      {
+        "model": "glm",
+        "category": "all",
+        "before": {
+          "model": "glm",
+          "category": "all",
+          "passed": 54,
+          "total": 72,
+          "success_rate": 0.75,
+          "repair_requests": 50,
+          "median_seconds": 1.252,
+          "mean_prompt_chars": 6939
+        },
+        "after": {
+          "model": "glm",
+          "category": "all",
+          "passed": 67,
+          "total": 72,
+          "success_rate": 0.9306,
+          "repair_requests": 8,
+          "median_seconds": 0.867,
+          "mean_prompt_chars": 5530
+        }
+      },
+      {
+        "model": "glm",
+        "category": "continuation",
+        "before": {
+          "model": "glm",
+          "category": "continuation",
+          "passed": 14,
+          "total": 16,
+          "success_rate": 0.875,
+          "repair_requests": 7,
+          "median_seconds": 1.18,
+          "mean_prompt_chars": 4182
+        },
+        "after": {
+          "model": "glm",
+          "category": "continuation",
+          "passed": 16,
+          "total": 16,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.814,
+          "mean_prompt_chars": 2748
+        }
+      },
+      {
+        "model": "glm",
+        "category": "execution",
+        "before": {
+          "model": "glm",
+          "category": "execution",
+          "passed": 2,
+          "total": 8,
+          "success_rate": 0.25,
+          "repair_requests": 19,
+          "median_seconds": 8.262,
+          "mean_prompt_chars": 25090
+        },
+        "after": {
+          "model": "glm",
+          "category": "execution",
+          "passed": 8,
+          "total": 8,
+          "success_rate": 1.0,
+          "repair_requests": 4,
+          "median_seconds": 4.311,
+          "mean_prompt_chars": 24585
+        }
+      },
+      {
+        "model": "glm",
+        "category": "irrelevance",
+        "before": {
+          "model": "glm",
+          "category": "irrelevance",
+          "passed": 9,
+          "total": 12,
+          "success_rate": 0.75,
+          "repair_requests": 4,
+          "median_seconds": 2.23,
+          "mean_prompt_chars": 3875
+        },
+        "after": {
+          "model": "glm",
+          "category": "irrelevance",
+          "passed": 10,
+          "total": 12,
+          "success_rate": 0.8333,
+          "repair_requests": 4,
+          "median_seconds": 2.941,
+          "mean_prompt_chars": 3974
+        }
+      },
+      {
+        "model": "glm",
+        "category": "multiple",
+        "before": {
+          "model": "glm",
+          "category": "multiple",
+          "passed": 11,
+          "total": 12,
+          "success_rate": 0.9167,
+          "repair_requests": 6,
+          "median_seconds": 0.792,
+          "mean_prompt_chars": 5915
+        },
+        "after": {
+          "model": "glm",
+          "category": "multiple",
+          "passed": 12,
+          "total": 12,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.622,
+          "mean_prompt_chars": 3624
+        }
+      },
+      {
+        "model": "glm",
+        "category": "parallel",
+        "before": {
+          "model": "glm",
+          "category": "parallel",
+          "passed": 8,
+          "total": 12,
+          "success_rate": 0.6667,
+          "repair_requests": 7,
+          "median_seconds": 1.245,
+          "mean_prompt_chars": 4768
+        },
+        "after": {
+          "model": "glm",
+          "category": "parallel",
+          "passed": 11,
+          "total": 12,
+          "success_rate": 0.9167,
+          "repair_requests": 0,
+          "median_seconds": 0.812,
+          "mean_prompt_chars": 2748
+        }
+      },
+      {
+        "model": "glm",
+        "category": "simple_python",
+        "before": {
+          "model": "glm",
+          "category": "simple_python",
+          "passed": 10,
+          "total": 12,
+          "success_rate": 0.8333,
+          "repair_requests": 7,
+          "median_seconds": 1.041,
+          "mean_prompt_chars": 4775
+        },
+        "after": {
+          "model": "glm",
+          "category": "simple_python",
+          "passed": 10,
+          "total": 12,
+          "success_rate": 0.8333,
+          "repair_requests": 0,
+          "median_seconds": 0.822,
+          "mean_prompt_chars": 2778
+        }
+      }
+    ],
+    "dev": [
+      {
+        "model": "deepseek",
+        "category": "all",
+        "before": {
+          "model": "deepseek",
+          "category": "all",
+          "passed": 33,
+          "total": 36,
+          "success_rate": 0.9167,
+          "repair_requests": 8,
+          "median_seconds": 0.373,
+          "mean_prompt_chars": 5326
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "all",
+          "passed": 35,
+          "total": 36,
+          "success_rate": 0.9722,
+          "repair_requests": 7,
+          "median_seconds": 0.374,
+          "mean_prompt_chars": 5503
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "continuation",
+        "before": {
+          "model": "deepseek",
+          "category": "continuation",
+          "passed": 8,
+          "total": 8,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.342,
+          "mean_prompt_chars": 2643
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "continuation",
+          "passed": 8,
+          "total": 8,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.279,
+          "mean_prompt_chars": 2696
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "execution",
+        "before": {
+          "model": "deepseek",
+          "category": "execution",
+          "passed": 3,
+          "total": 4,
+          "success_rate": 0.75,
+          "repair_requests": 8,
+          "median_seconds": 2.06,
+          "mean_prompt_chars": 24253
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "execution",
+          "passed": 4,
+          "total": 4,
+          "success_rate": 1.0,
+          "repair_requests": 7,
+          "median_seconds": 2.915,
+          "mean_prompt_chars": 26153
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "irrelevance",
+        "before": {
+          "model": "deepseek",
+          "category": "irrelevance",
+          "passed": 4,
+          "total": 6,
+          "success_rate": 0.6667,
+          "repair_requests": 0,
+          "median_seconds": 0.905,
+          "mean_prompt_chars": 2727
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "irrelevance",
+          "passed": 5,
+          "total": 6,
+          "success_rate": 0.8333,
+          "repair_requests": 0,
+          "median_seconds": 0.574,
+          "mean_prompt_chars": 2687
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "multiple",
+        "before": {
+          "model": "deepseek",
+          "category": "multiple",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.32,
+          "mean_prompt_chars": 3977
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "multiple",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.357,
+          "mean_prompt_chars": 3817
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "parallel",
+        "before": {
+          "model": "deepseek",
+          "category": "parallel",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.306,
+          "mean_prompt_chars": 2714
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "parallel",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.405,
+          "mean_prompt_chars": 2679
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "simple_python",
+        "before": {
+          "model": "deepseek",
+          "category": "simple_python",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.357,
+          "mean_prompt_chars": 2843
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "simple_python",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.305,
+          "mean_prompt_chars": 2802
+        }
+      },
+      {
+        "model": "glm",
+        "category": "all",
+        "before": {
+          "model": "glm",
+          "category": "all",
+          "passed": 33,
+          "total": 36,
+          "success_rate": 0.9167,
+          "repair_requests": 26,
+          "median_seconds": 1.187,
+          "mean_prompt_chars": 7494
+        },
+        "after": {
+          "model": "glm",
+          "category": "all",
+          "passed": 36,
+          "total": 36,
+          "success_rate": 1.0,
+          "repair_requests": 3,
+          "median_seconds": 0.85,
+          "mean_prompt_chars": 4865
+        }
+      },
+      {
+        "model": "glm",
+        "category": "continuation",
+        "before": {
+          "model": "glm",
+          "category": "continuation",
+          "passed": 8,
+          "total": 8,
+          "success_rate": 1.0,
+          "repair_requests": 2,
+          "median_seconds": 0.914,
+          "mean_prompt_chars": 3458
+        },
+        "after": {
+          "model": "glm",
+          "category": "continuation",
+          "passed": 8,
+          "total": 8,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.699,
+          "mean_prompt_chars": 2696
+        }
+      },
+      {
+        "model": "glm",
+        "category": "execution",
+        "before": {
+          "model": "glm",
+          "category": "execution",
+          "passed": 2,
+          "total": 4,
+          "success_rate": 0.5,
+          "repair_requests": 12,
+          "median_seconds": 7.818,
+          "mean_prompt_chars": 30833
+        },
+        "after": {
+          "model": "glm",
+          "category": "execution",
+          "passed": 4,
+          "total": 4,
+          "success_rate": 1.0,
+          "repair_requests": 1,
+          "median_seconds": 3.688,
+          "mean_prompt_chars": 18610
+        }
+      },
+      {
+        "model": "glm",
+        "category": "irrelevance",
+        "before": {
+          "model": "glm",
+          "category": "irrelevance",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 2,
+          "median_seconds": 2.23,
+          "mean_prompt_chars": 3890
+        },
+        "after": {
+          "model": "glm",
+          "category": "irrelevance",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 2,
+          "median_seconds": 4.067,
+          "mean_prompt_chars": 3890
+        }
+      },
+      {
+        "model": "glm",
+        "category": "multiple",
+        "before": {
+          "model": "glm",
+          "category": "multiple",
+          "passed": 5,
+          "total": 6,
+          "success_rate": 0.8333,
+          "repair_requests": 4,
+          "median_seconds": 1.005,
+          "mean_prompt_chars": 6979
+        },
+        "after": {
+          "model": "glm",
+          "category": "multiple",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.913,
+          "mean_prompt_chars": 3817
+        }
+      },
+      {
+        "model": "glm",
+        "category": "parallel",
+        "before": {
+          "model": "glm",
+          "category": "parallel",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 3,
+          "median_seconds": 0.936,
+          "mean_prompt_chars": 4402
+        },
+        "after": {
+          "model": "glm",
+          "category": "parallel",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.768,
+          "mean_prompt_chars": 2679
+        }
+      },
+      {
+        "model": "glm",
+        "category": "simple_python",
+        "before": {
+          "model": "glm",
+          "category": "simple_python",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 3,
+          "median_seconds": 0.855,
+          "mean_prompt_chars": 4524
+        },
+        "after": {
+          "model": "glm",
+          "category": "simple_python",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.688,
+          "mean_prompt_chars": 2802
+        }
+      }
+    ],
+    "holdout": [
+      {
+        "model": "deepseek",
+        "category": "all",
+        "before": {
+          "model": "deepseek",
+          "category": "all",
+          "passed": 26,
+          "total": 36,
+          "success_rate": 0.7222,
+          "repair_requests": 10,
+          "median_seconds": 0.46,
+          "mean_prompt_chars": 5207
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "all",
+          "passed": 32,
+          "total": 36,
+          "success_rate": 0.8889,
+          "repair_requests": 8,
+          "median_seconds": 0.349,
+          "mean_prompt_chars": 6872
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "continuation",
+        "before": {
+          "model": "deepseek",
+          "category": "continuation",
+          "passed": 8,
+          "total": 8,
+          "success_rate": 1.0,
+          "repair_requests": 1,
+          "median_seconds": 0.552,
+          "mean_prompt_chars": 3072
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "continuation",
+          "passed": 8,
+          "total": 8,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.415,
+          "mean_prompt_chars": 2799
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "execution",
+        "before": {
+          "model": "deepseek",
+          "category": "execution",
+          "passed": 0,
+          "total": 4,
+          "success_rate": 0.0,
+          "repair_requests": 8,
+          "median_seconds": 1.674,
+          "mean_prompt_chars": 21650
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "execution",
+          "passed": 4,
+          "total": 4,
+          "success_rate": 1.0,
+          "repair_requests": 8,
+          "median_seconds": 3.286,
+          "mean_prompt_chars": 38668
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "irrelevance",
+        "before": {
+          "model": "deepseek",
+          "category": "irrelevance",
+          "passed": 4,
+          "total": 6,
+          "success_rate": 0.6667,
+          "repair_requests": 1,
+          "median_seconds": 1.38,
+          "mean_prompt_chars": 3482
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "irrelevance",
+          "passed": 4,
+          "total": 6,
+          "success_rate": 0.6667,
+          "repair_requests": 0,
+          "median_seconds": 0.571,
+          "mean_prompt_chars": 2716
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "multiple",
+        "before": {
+          "model": "deepseek",
+          "category": "multiple",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.374,
+          "mean_prompt_chars": 3575
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "multiple",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.267,
+          "mean_prompt_chars": 3431
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "parallel",
+        "before": {
+          "model": "deepseek",
+          "category": "parallel",
+          "passed": 3,
+          "total": 6,
+          "success_rate": 0.5,
+          "repair_requests": 0,
+          "median_seconds": 0.416,
+          "mean_prompt_chars": 2855
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "parallel",
+          "passed": 4,
+          "total": 6,
+          "success_rate": 0.6667,
+          "repair_requests": 0,
+          "median_seconds": 0.364,
+          "mean_prompt_chars": 2818
+        }
+      },
+      {
+        "model": "deepseek",
+        "category": "simple_python",
+        "before": {
+          "model": "deepseek",
+          "category": "simple_python",
+          "passed": 5,
+          "total": 6,
+          "success_rate": 0.8333,
+          "repair_requests": 0,
+          "median_seconds": 0.335,
+          "mean_prompt_chars": 2800
+        },
+        "after": {
+          "model": "deepseek",
+          "category": "simple_python",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.269,
+          "mean_prompt_chars": 2755
+        }
+      },
+      {
+        "model": "glm",
+        "category": "all",
+        "before": {
+          "model": "glm",
+          "category": "all",
+          "passed": 21,
+          "total": 36,
+          "success_rate": 0.5833,
+          "repair_requests": 24,
+          "median_seconds": 1.42,
+          "mean_prompt_chars": 6385
+        },
+        "after": {
+          "model": "glm",
+          "category": "all",
+          "passed": 31,
+          "total": 36,
+          "success_rate": 0.8611,
+          "repair_requests": 5,
+          "median_seconds": 1.061,
+          "mean_prompt_chars": 6194
+        }
+      },
+      {
+        "model": "glm",
+        "category": "continuation",
+        "before": {
+          "model": "glm",
+          "category": "continuation",
+          "passed": 6,
+          "total": 8,
+          "success_rate": 0.75,
+          "repair_requests": 5,
+          "median_seconds": 1.848,
+          "mean_prompt_chars": 4906
+        },
+        "after": {
+          "model": "glm",
+          "category": "continuation",
+          "passed": 8,
+          "total": 8,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 1.182,
+          "mean_prompt_chars": 2799
+        }
+      },
+      {
+        "model": "glm",
+        "category": "execution",
+        "before": {
+          "model": "glm",
+          "category": "execution",
+          "passed": 0,
+          "total": 4,
+          "success_rate": 0.0,
+          "repair_requests": 7,
+          "median_seconds": 8.262,
+          "mean_prompt_chars": 19348
+        },
+        "after": {
+          "model": "glm",
+          "category": "execution",
+          "passed": 4,
+          "total": 4,
+          "success_rate": 1.0,
+          "repair_requests": 3,
+          "median_seconds": 5.294,
+          "mean_prompt_chars": 30560
+        }
+      },
+      {
+        "model": "glm",
+        "category": "irrelevance",
+        "before": {
+          "model": "glm",
+          "category": "irrelevance",
+          "passed": 3,
+          "total": 6,
+          "success_rate": 0.5,
+          "repair_requests": 2,
+          "median_seconds": 2.112,
+          "mean_prompt_chars": 3860
+        },
+        "after": {
+          "model": "glm",
+          "category": "irrelevance",
+          "passed": 4,
+          "total": 6,
+          "success_rate": 0.6667,
+          "repair_requests": 2,
+          "median_seconds": 1.825,
+          "mean_prompt_chars": 4058
+        }
+      },
+      {
+        "model": "glm",
+        "category": "multiple",
+        "before": {
+          "model": "glm",
+          "category": "multiple",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 2,
+          "median_seconds": 0.616,
+          "mean_prompt_chars": 4851
+        },
+        "after": {
+          "model": "glm",
+          "category": "multiple",
+          "passed": 6,
+          "total": 6,
+          "success_rate": 1.0,
+          "repair_requests": 0,
+          "median_seconds": 0.488,
+          "mean_prompt_chars": 3431
+        }
+      },
+      {
+        "model": "glm",
+        "category": "parallel",
+        "before": {
+          "model": "glm",
+          "category": "parallel",
+          "passed": 2,
+          "total": 6,
+          "success_rate": 0.3333,
+          "repair_requests": 4,
+          "median_seconds": 1.572,
+          "mean_prompt_chars": 5133
+        },
+        "after": {
+          "model": "glm",
+          "category": "parallel",
+          "passed": 5,
+          "total": 6,
+          "success_rate": 0.8333,
+          "repair_requests": 0,
+          "median_seconds": 1.018,
+          "mean_prompt_chars": 2818
+        }
+      },
+      {
+        "model": "glm",
+        "category": "simple_python",
+        "before": {
+          "model": "glm",
+          "category": "simple_python",
+          "passed": 4,
+          "total": 6,
+          "success_rate": 0.6667,
+          "repair_requests": 4,
+          "median_seconds": 1.229,
+          "mean_prompt_chars": 5026
+        },
+        "after": {
+          "model": "glm",
+          "category": "simple_python",
+          "passed": 4,
+          "total": 6,
+          "success_rate": 0.6667,
+          "repair_requests": 0,
+          "median_seconds": 1.061,
+          "mean_prompt_chars": 2755
+        }
+      }
+    ]
+  },
+  "changed_outcomes": [
+    {
+      "model": "deepseek",
+      "id": "agent/pointer",
+      "repeat": 0,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "deepseek",
+      "id": "agent/pointer",
+      "repeat": 1,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "deepseek",
+      "id": "agent/recover",
+      "repeat": 0,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "deepseek",
+      "id": "agent/recover",
+      "repeat": 1,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "deepseek",
+      "id": "agent/sort",
+      "repeat": 0,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "deepseek",
+      "id": "bfcl/irrelevance_183",
+      "repeat": 0,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "deepseek",
+      "id": "bfcl/parallel_124",
+      "repeat": 0,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "deepseek",
+      "id": "bfcl/simple_python_234",
+      "repeat": 1,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "glm",
+      "id": "agent/pointer",
+      "repeat": 0,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "glm",
+      "id": "agent/pointer",
+      "repeat": 1,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "glm",
+      "id": "agent/recover",
+      "repeat": 0,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "glm",
+      "id": "agent/recover",
+      "repeat": 1,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "glm",
+      "id": "agent/repair",
+      "repeat": 0,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "glm",
+      "id": "agent/sort",
+      "repeat": 0,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "glm",
+      "id": "bfcl/irrelevance_58",
+      "repeat": 1,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "glm",
+      "id": "bfcl/multiple_0",
+      "repeat": 1,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "glm",
+      "id": "bfcl/parallel_108",
+      "repeat": 1,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "glm",
+      "id": "bfcl/parallel_124",
+      "repeat": 0,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "glm",
+      "id": "bfcl/parallel_124",
+      "repeat": 1,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "glm",
+      "id": "local/after_error_retry",
+      "repeat": 0,
+      "before": false,
+      "after": true
+    },
+    {
+      "model": "glm",
+      "id": "local/chinese_continue",
+      "repeat": 0,
+      "before": false,
+      "after": true
+    }
+  ],
+  "remaining_failures": [
+    {
+      "model": "deepseek",
+      "id": "bfcl/irrelevance_183",
+      "repeat": 1,
+      "split": "dev",
+      "failure_type": "irrelevant_call",
+      "error": null,
+      "calls": [
+        {
+          "id": "call_db3512073c8c48cb91fcbea2",
+          "type": "function",
+          "function": {
+            "name": "find_top_sports_celebrity",
+            "arguments": "{\"name\": \"Novak Djokovic\", \"year\": 2021, \"sports_type\": \"Tennis\"}"
+          }
+        }
+      ],
+      "final": ""
+    },
+    {
+      "model": "deepseek",
+      "id": "bfcl/irrelevance_65",
+      "repeat": 0,
+      "split": "holdout",
+      "failure_type": "irrelevant_call",
+      "error": null,
+      "calls": [
+        {
+          "id": "call_cd63f300e2014ea59cb1c6b2",
+          "type": "function",
+          "function": {
+            "name": "probability.determine_population",
+            "arguments": "{\"probability\": 0.3, \"sample_size\": 20}"
+          }
+        }
+      ],
+      "final": ""
+    },
+    {
+      "model": "glm",
+      "id": "bfcl/simple_python_234",
+      "repeat": 1,
+      "split": "holdout",
+      "failure_type": "arguments_or_final_mismatch",
+      "error": null,
+      "calls": [
+        {
+          "id": "call_65645d5d2eaf4a32a7ce49cf",
+          "type": "function",
+          "function": {
+            "name": "history_eu.fetch_events",
+            "arguments": "{\"century\": 19, \"region\": \"Northern\", \"category\": \"Wars\"}"
+          }
+        },
+        {
+          "id": "call_17604fd9c53b43738b446307",
+          "type": "function",
+          "function": {
+            "name": "history_eu.fetch_events",
+            "arguments": "{\"century\": 19, \"region\": \"Southern\", \"category\": \"Wars\"}"
+          }
+        },
+        {
+          "id": "call_99df2378aa294cd491b71852",
+          "type": "function",
+          "function": {
+            "name": "history_eu.fetch_events",
+            "arguments": "{\"century\": 19, \"region\": \"Eastern\", \"category\": \"Wars\"}"
+          }
+        },
+        {
+          "id": "call_127bb71f0a24416fa736ed39",
+          "type": "function",
+          "function": {
+            "name": "history_eu.fetch_events",
+            "arguments": "{\"century\": 19, \"region\": \"Western\", \"category\": \"Wars\"}"
+          }
+        }
+      ],
+      "final": ""
+    },
+    {
+      "model": "deepseek",
+      "id": "bfcl/irrelevance_65",
+      "repeat": 1,
+      "split": "holdout",
+      "failure_type": "irrelevant_call",
+      "error": null,
+      "calls": [
+        {
+          "id": "call_5d7bd77d2d13410fa65fba34",
+          "type": "function",
+          "function": {
+            "name": "probability.determine_population",
+            "arguments": "{\"probability\": 0.3, \"sample_size\": 20}"
+          }
+        }
+      ],
+      "final": ""
+    },
+    {
+      "model": "glm",
+      "id": "bfcl/irrelevance_65",
+      "repeat": 0,
+      "split": "holdout",
+      "failure_type": "irrelevant_call",
+      "error": null,
+      "calls": [
+        {
+          "id": "call_85bb1e755a46459d83cb7a3b",
+          "type": "function",
+          "function": {
+            "name": "probability.determine_population",
+            "arguments": "{\"probability\": 0.3, \"sample_size\": 20}"
+          }
+        }
+      ],
+      "final": ""
+    },
+    {
+      "model": "deepseek",
+      "id": "bfcl/parallel_108",
+      "repeat": 1,
+      "split": "holdout",
+      "failure_type": "arguments_or_final_mismatch",
+      "error": null,
+      "calls": [
+        {
+          "id": "call_36ebba425dea4ff48bfe3025",
+          "type": "function",
+          "function": {
+            "name": "biology.get_cell_info",
+            "arguments": "{\"cell_type\": \"neuron\", \"detailed\": true}"
+          }
+        }
+      ],
+      "final": ""
+    },
+    {
+      "model": "deepseek",
+      "id": "bfcl/parallel_108",
+      "repeat": 0,
+      "split": "holdout",
+      "failure_type": "arguments_or_final_mismatch",
+      "error": null,
+      "calls": [
+        {
+          "id": "call_82450e834c144d8cac6a3f4c",
+          "type": "function",
+          "function": {
+            "name": "biology.get_cell_info",
+            "arguments": "{\"cell_type\": \"neuron\", \"detailed\": true}"
+          }
+        }
+      ],
+      "final": ""
+    },
+    {
+      "model": "glm",
+      "id": "bfcl/irrelevance_65",
+      "repeat": 1,
+      "split": "holdout",
+      "failure_type": "irrelevant_call",
+      "error": null,
+      "calls": [
+        {
+          "id": "call_ae4e6297c32547339c284058",
+          "type": "function",
+          "function": {
+            "name": "probability.determine_population",
+            "arguments": "{\"probability\": 0.3, \"sample_size\": 20}"
+          }
+        }
+      ],
+      "final": ""
+    },
+    {
+      "model": "glm",
+      "id": "bfcl/simple_python_234",
+      "repeat": 0,
+      "split": "holdout",
+      "failure_type": "arguments_or_final_mismatch",
+      "error": null,
+      "calls": [
+        {
+          "id": "call_f39e9af51c914fbda9a0cefa",
+          "type": "function",
+          "function": {
+            "name": "history_eu.fetch_events",
+            "arguments": "{\"century\": 19, \"region\": \"Northern\", \"category\": \"Wars\"}"
+          }
+        },
+        {
+          "id": "call_63e99e4f806f4797ab9c9fe7",
+          "type": "function",
+          "function": {
+            "name": "history_eu.fetch_events",
+            "arguments": "{\"century\": 19, \"region\": \"Southern\", \"category\": \"Wars\"}"
+          }
+        },
+        {
+          "id": "call_0ebb531f240d4e32a175f704",
+          "type": "function",
+          "function": {
+            "name": "history_eu.fetch_events",
+            "arguments": "{\"century\": 19, \"region\": \"Eastern\", \"category\": \"Wars\"}"
+          }
+        },
+        {
+          "id": "call_7bf98629730348da90280ece",
+          "type": "function",
+          "function": {
+            "name": "history_eu.fetch_events",
+            "arguments": "{\"century\": 19, \"region\": \"Western\", \"category\": \"Wars\"}"
+          }
+        }
+      ],
+      "final": ""
+    },
+    {
+      "model": "glm",
+      "id": "bfcl/parallel_108",
+      "repeat": 0,
+      "split": "holdout",
+      "failure_type": "arguments_or_final_mismatch",
+      "error": null,
+      "calls": [
+        {
+          "id": "call_5ad953d0883b4faab34e3020",
+          "type": "function",
+          "function": {
+            "name": "biology.get_cell_info",
+            "arguments": "{\"cell_type\": \"neuron\", \"detailed\": true}"
+          }
+        },
+        {
+          "id": "call_d316ed9e1c6e4d909a8eb152",
+          "type": "function",
+          "function": {
+            "name": "biology.get_cell_info",
+            "arguments": "{\"cell_type\": \"muscle cell\", \"detailed\": false}"
+          }
+        }
+      ],
+      "final": ""
+    }
+  ],
+  "note": "Small sampled regression benchmark, not an official BFCL leaderboard score. Dev data was used for tuning; holdout data was evaluated after freezing the candidate. Latency includes network variability.",
+  "before_reports": [
+    {
+      "path": "benchmarks/reports/runs/baseline-local-dev.json",
+      "sha256": "95bc5c7014fd0e56e0d0f0e8d2e231e099ad764568e1362f97de3ba1e65f78c5",
+      "label": "baseline-local-dev",
+      "backend_sha256": {
+        "anthropic_compat.py": "9fbe01647f053708400dff93792dc3df0b391db08fe67189cb7269a5b3bf2ece",
+        "web_search.py": "94fe5ae5f66512b90078f63fdae3583076f30284a75a30983a68cee4a19b183b",
+        "main.py": "52a3af7c3895a721517d6767c62127455b701cbb052015a98d4cbedc4229741b"
+      }
+    },
+    {
+      "path": "benchmarks/reports/runs/baseline-bfcl-dev.json",
+      "sha256": "8405fb555c086e42617c780d5af87605af8f40b9155292afcf3dd8b93cdb66b5",
+      "label": "baseline-bfcl-dev",
+      "backend_sha256": {
+        "anthropic_compat.py": "9fbe01647f053708400dff93792dc3df0b391db08fe67189cb7269a5b3bf2ece",
+        "web_search.py": "94fe5ae5f66512b90078f63fdae3583076f30284a75a30983a68cee4a19b183b",
+        "main.py": "52a3af7c3895a721517d6767c62127455b701cbb052015a98d4cbedc4229741b"
+      }
+    },
+    {
+      "path": "benchmarks/reports/runs/baseline-holdout.json",
+      "sha256": "ceccc5d5972727240c137fa11149151de75df5fdd4e28813d7de2ae4ca92accb",
+      "label": "baseline-holdout",
+      "backend_sha256": {
+        "anthropic_compat.py": "9fbe01647f053708400dff93792dc3df0b391db08fe67189cb7269a5b3bf2ece",
+        "web_search.py": "94fe5ae5f66512b90078f63fdae3583076f30284a75a30983a68cee4a19b183b",
+        "main.py": "52a3af7c3895a721517d6767c62127455b701cbb052015a98d4cbedc4229741b"
+      }
+    }
+  ],
+  "after_reports": [
+    {
+      "path": "benchmarks/reports/runs/tuned-dev-v3.json",
+      "sha256": "89d41222b011ba6f981282141799feb672dd29fb73405829bcecc8755df9d20c",
+      "label": "tuned-dev-v3",
+      "backend_sha256": {
+        "anthropic_compat.py": "9fbe01647f053708400dff93792dc3df0b391db08fe67189cb7269a5b3bf2ece",
+        "web_search.py": "94fe5ae5f66512b90078f63fdae3583076f30284a75a30983a68cee4a19b183b",
+        "main.py": "5ee3fc17552d366c9c6d4dfcd88cc916978a73a35eb0815b44f3cd730b365daa"
+      }
+    },
+    {
+      "path": "benchmarks/reports/runs/tuned-holdout.json",
+      "sha256": "47231e456df7fd48b55b7566b2381c829d6fd395601dbc23c1b05464a76e6a8f",
+      "label": "tuned-holdout",
+      "backend_sha256": {
+        "anthropic_compat.py": "9fbe01647f053708400dff93792dc3df0b391db08fe67189cb7269a5b3bf2ece",
+        "web_search.py": "94fe5ae5f66512b90078f63fdae3583076f30284a75a30983a68cee4a19b183b",
+        "main.py": "5ee3fc17552d366c9c6d4dfcd88cc916978a73a35eb0815b44f3cd730b365daa"
+      }
+    }
+  ]
+}
