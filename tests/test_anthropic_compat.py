@@ -328,8 +328,30 @@ class SharedBackendTests(unittest.TestCase):
         result = prepared["messages"][-1]
         self.assertEqual(result["role"], "user")
         self.assertIn('"tool_call_id": "image_read"', result["content"][0]["text"])
-        self.assertEqual(result["content"][1]["image_url"]["url"], "data:image/png;base64," + PNG)
+        pixels = [part for part in result["content"] if part.get("type") == "image_url"]
+        self.assertEqual(pixels[0]["image_url"]["url"], "data:image/png;base64," + PNG)
         self.assertNotIn(PNG, result["content"][0]["text"])
+
+    def test_openai_endpoint_enforces_budget_on_the_actual_upstream_prompt(self):
+        messages = []
+        for index in range(25):
+            messages.extend([{"role": "user", "content": [{"type": "image_url", "image_url": {"url": f"https://example.com/old-{index}.png"}}]},
+                             {"role": "assistant", "content": f"Recorded observation {index}"}])
+        newest = "data:image/png;base64," + PNG
+        messages.extend([{"role": "user", "content": "Inspect the new image."},
+                         {"role": "assistant", "tool_calls": [{"id": "latest", "function": {"name": "Read", "arguments": "{}"}}]},
+                         {"role": "tool", "tool_call_id": "latest", "content": [{"type": "image_url", "image_url": {"url": newest}}]}])
+        upstream = Mock(status_code=200)
+        upstream.iter_lines.return_value = iter([b'data: {"choices":[{"delta":{"content":"observed"},"finish_reason":"stop"}]}'])
+        with patch.dict(self.backend.SERVER_SETTINGS, {"GENAI_MAX_IMAGES": "5"}), patch.object(self.backend.requests, "post", return_value=upstream) as post:
+            response = self.backend.app.test_client().post("/v1/chat/completions", json={"model": "deepseek", "messages": messages})
+        self.assertEqual(response.status_code, 200)
+        forwarded = post.call_args.kwargs["json"]["messages"]
+        urls = [part["image_url"]["url"] for message in forwarded if isinstance(message.get("content"), list)
+                for part in message["content"] if part.get("type") == "image_url"]
+        self.assertEqual(len(urls), 5)
+        self.assertIn(newest, urls)
+        self.assertIn("Recorded observation 0", json.dumps(forwarded))
 
     def test_json_final_cannot_ask_again_instead_of_running(self):
         for text in ["Want me to run this benchmark in your repo?", "我来运行这个程序。", "I'll run a check now."]:

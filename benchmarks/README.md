@@ -42,6 +42,9 @@ uv run --locked python tools/verify_claude_tools.py --directory .. --model deeps
 # 视觉效果：随机测试图、标准答案，以及无像素对照
 uv run --locked --group vision python tools/benchmark_vision.py --models deepseek --seed 93841
 
+# 整段历史图片预算：25 张旧图 + 新图片，检查识图结果与无新图对照
+uv run --locked --group vision python tools/benchmark_vision.py --models deepseek --history-images 25 --cases ocr shapes multiple_images --repeats 2 --seed 71961
+
 # 离线回归（含真正启动本地重载服务、评分器反例；不请求学校模型）
 uv run --locked python -m unittest discover -s tests -q
 ```
@@ -77,6 +80,8 @@ uv run --locked python tools/compare_tool_benchmarks.py --before temp/before.jso
 [同题对比报告](reports/tool-tuning.md) 和 [机器可读报告](reports/tool-tuning.json) 保留了开发集、holdout、纠正次数、延迟和全部剩余失败。原始运行记录在 `reports/runs/`，包括失败的原生历史实验；协议改动补丁在 `reports/baseline-to-tuned.patch`。
 
 这些调优报告对应首次发布提交 `2fd5aad`，原始记录保留当时的源码指纹；后续修复不会改写历史测量。复原该版本或应用其协议补丁时应使用对应提交。新增的 `--case image` 和 [视觉效果验收](vision/README.md) 是实际识图的独立回归，不包含在历史报告的五类工作流中。
+
+[图片预算验收](image-budget/README.md) 记录学校 20 图限制的真实复现，以及携带 25 张历史图后仍能识别当前图片的回归。`--history-images` 可指定历史图数量，`--cases` 可选择题型；无新图对照保留历史图，但要求对当前未知事实返回 null。
 
 本次每模型每 split 18 题 × 2 次。开发集用于三次候选实验；最终协议冻结后才执行 holdout，未根据它继续修改协议。真实 Claude Code 五类任务两种模型均通过；这仍是小样本回归，不能保证任意任务都成功。重复运行共享题目，不是 36 道独立测试题；没有统计显著性结论。
 

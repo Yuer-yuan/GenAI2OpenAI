@@ -1,0 +1,117 @@
+{
+  "source_sha256": {
+    "anthropic_compat.py": "fe9939110e705cdca620bce0ac59668da91f69cb9f116b51f9df1405cb89372c",
+    "tools/benchmark_vision.py": "c61aca25654f32ced261627f892e8a02fd5a3a74c90a7fc0053599c22235622d"
+  },
+  "note": "Offline reconstruction of the archived final benchmark requests; no model call. Separate from live HTTP results in report.json.",
+  "checks": [
+    {
+      "repeat": 0,
+      "id": "ocr",
+      "mode": "image",
+      "input_images": 26,
+      "bounded_images": 20,
+      "all_current_pixels_retained": true,
+      "historical_observations_retained": 25
+    },
+    {
+      "repeat": 0,
+      "id": "ocr",
+      "mode": "no-image",
+      "input_images": 25,
+      "bounded_images": 20,
+      "all_current_pixels_retained": true,
+      "historical_observations_retained": 25
+    },
+    {
+      "repeat": 0,
+      "id": "shapes",
+      "mode": "image",
+      "input_images": 26,
+      "bounded_images": 20,
+      "all_current_pixels_retained": true,
+      "historical_observations_retained": 25
+    },
+    {
+      "repeat": 0,
+      "id": "shapes",
+      "mode": "no-image",
+      "input_images": 25,
+      "bounded_images": 20,
+      "all_current_pixels_retained": true,
+      "historical_observations_retained": 25
+    },
+    {
+      "repeat": 0,
+      "id": "multiple_images",
+      "mode": "image",
+      "input_images": 27,
+      "bounded_images": 20,
+      "all_current_pixels_retained": true,
+      "historical_observations_retained": 25
+    },
+    {
+      "repeat": 0,
+      "id": "multiple_images",
+      "mode": "no-image",
+      "input_images": 25,
+      "bounded_images": 20,
+      "all_current_pixels_retained": true,
+      "historical_observations_retained": 25
+    },
+    {
+      "repeat": 1,
+      "id": "ocr",
+      "mode": "image",
+      "input_images": 26,
+      "bounded_images": 20,
+      "all_current_pixels_retained": true,
+      "historical_observations_retained": 25
+    },
+    {
+      "repeat": 1,
+      "id": "ocr",
+      "mode": "no-image",
+      "input_images": 25,
+      "bounded_images": 20,
+      "all_current_pixels_retained": true,
+      "historical_observations_retained": 25
+    },
+    {
+      "repeat": 1,
+      "id": "shapes",
+      "mode": "image",
+      "input_images": 26,
+      "bounded_images": 20,
+      "all_current_pixels_retained": true,
+      "historical_observations_retained": 25
+    },
+    {
+      "repeat": 1,
+      "id": "shapes",
+      "mode": "no-image",
+      "input_images": 25,
+      "bounded_images": 20,
+      "all_current_pixels_retained": true,
+      "historical_observations_retained": 25
+    },
+    {
+      "repeat": 1,
+      "id": "multiple_images",
+      "mode": "image",
+      "input_images": 27,
+      "bounded_images": 20,
+      "all_current_pixels_retained": true,
+      "historical_observations_retained": 25
+    },
+    {
+      "repeat": 1,
+      "id": "multiple_images",
+      "mode": "no-image",
+      "input_images": 25,
+      "bounded_images": 20,
+      "all_current_pixels_retained": true,
+      "historical_observations_retained": 25
+    }
+  ]
+}

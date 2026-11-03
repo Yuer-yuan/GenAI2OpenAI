@@ -1,0 +1,393 @@
+{
+  "seed": 71961,
+  "repeats": 2,
+  "history_images": 25,
+  "case_filter": [
+    "ocr",
+    "shapes",
+    "multiple_images"
+  ],
+  "complete": true,
+  "source_sha256": {
+    "main.py": "c21ffe7f8c9d6e9dfb8fefdea08560e521fbc8632b7ac4619e43c340372d5bed",
+    "anthropic_compat.py": "fe9939110e705cdca620bce0ac59668da91f69cb9f116b51f9df1405cb89372c",
+    "tools/benchmark_vision.py": "c61aca25654f32ced261627f892e8a02fd5a3a74c90a7fc0053599c22235622d"
+  },
+  "summary": [
+    {
+      "model": "deepseek",
+      "mode": "image",
+      "passed": 6,
+      "total": 6,
+      "accuracy": 1.0,
+      "field_accuracy": 1.0,
+      "errors": 0,
+      "answer_leaks": 0
+    },
+    {
+      "model": "deepseek",
+      "mode": "no-image",
+      "passed": 6,
+      "total": 6,
+      "accuracy": 1.0,
+      "field_accuracy": 1.0,
+      "errors": 0,
+      "answer_leaks": 0
+    }
+  ],
+  "results": [
+    {
+      "id": "shapes",
+      "model": "deepseek",
+      "mode": "no-image",
+      "expected": {
+        "blue_circles": null,
+        "red_squares": null,
+        "green_triangles": null
+      },
+      "answer": {
+        "blue_circles": null,
+        "red_squares": null,
+        "green_triangles": null
+      },
+      "raw": "No image pixels were available to inspect in this request, so the counts cannot be read. Result: {\"blue_circles\":null,\"red_squares\":null,\"green_triangles\":null}",
+      "error": null,
+      "seconds": 2.22,
+      "image_hashes": [
+        "d4485708af80372940c7c2517afa59532e66bf221ae8265bf1610f6397f7c616"
+      ],
+      "image_answer_leaked_without_pixels": false,
+      "passed": true,
+      "fields_correct": 3,
+      "fields_total": 3,
+      "fields": {
+        "blue_circles": true,
+        "red_squares": true,
+        "green_triangles": true
+      },
+      "repeat": 0
+    },
+    {
+      "id": "shapes",
+      "model": "deepseek",
+      "mode": "image",
+      "expected": {
+        "blue_circles": 5,
+        "red_squares": 2,
+        "green_triangles": 4
+      },
+      "answer": {
+        "blue_circles": 5,
+        "red_squares": 2,
+        "green_triangles": 4
+      },
+      "raw": "{\"blue_circles\":5,\"red_squares\":2,\"green_triangles\":4}",
+      "error": null,
+      "seconds": 1.92,
+      "image_hashes": [
+        "d4485708af80372940c7c2517afa59532e66bf221ae8265bf1610f6397f7c616"
+      ],
+      "image_answer_leaked_without_pixels": false,
+      "passed": true,
+      "fields_correct": 3,
+      "fields_total": 3,
+      "fields": {
+        "blue_circles": true,
+        "red_squares": true,
+        "green_triangles": true
+      },
+      "repeat": 0
+    },
+    {
+      "id": "multiple_images",
+      "model": "deepseek",
+      "mode": "no-image",
+      "expected": {
+        "first_code": null,
+        "second_code": null,
+        "circle_delta": null
+      },
+      "answer": {
+        "first_code": null,
+        "second_code": null,
+        "circle_delta": null
+      },
+      "raw": "{\"first_code\": null, \"second_code\": null, \"circle_delta\": null}",
+      "error": null,
+      "seconds": 1.226,
+      "image_hashes": [
+        "8b7b59eac2167a1a4d07a6d38ad8fe03552beecc587e6468ec9c8f5bf9d2a5e0",
+        "977701e730edcb7bdd857ad0f000325b34b212dea3d3e76397422a65825452d3"
+      ],
+      "image_answer_leaked_without_pixels": false,
+      "passed": true,
+      "fields_correct": 3,
+      "fields_total": 3,
+      "fields": {
+        "first_code": true,
+        "second_code": true,
+        "circle_delta": true
+      },
+      "repeat": 0
+    },
+    {
+      "id": "ocr",
+      "model": "deepseek",
+      "mode": "image",
+      "expected": {
+        "code": "DU4JAFS4"
+      },
+      "answer": {
+        "code": "DU4JAFS4"
+      },
+      "raw": "{\"code\": \"DU4JAFS4\"}",
+      "error": null,
+      "seconds": 1.904,
+      "image_hashes": [
+        "70aee8208dab8d7d5566ea5d751bb27346145eaf95a066b461d8f7d251ee23f9"
+      ],
+      "image_answer_leaked_without_pixels": false,
+      "passed": true,
+      "fields_correct": 1,
+      "fields_total": 1,
+      "fields": {
+        "code": true
+      },
+      "repeat": 0
+    },
+    {
+      "id": "multiple_images",
+      "model": "deepseek",
+      "mode": "image",
+      "expected": {
+        "first_code": "HHDBVYZG",
+        "second_code": "5C6Y5939",
+        "circle_delta": 0
+      },
+      "answer": {
+        "first_code": "HHDBVYZG",
+        "second_code": "5C6Y5939",
+        "circle_delta": 0
+      },
+      "raw": "{\"first_code\":\"HHDBVYZG\",\"second_code\":\"5C6Y5939\",\"circle_delta\":0}",
+      "error": null,
+      "seconds": 25.951,
+      "image_hashes": [
+        "8b7b59eac2167a1a4d07a6d38ad8fe03552beecc587e6468ec9c8f5bf9d2a5e0",
+        "977701e730edcb7bdd857ad0f000325b34b212dea3d3e76397422a65825452d3"
+      ],
+      "image_answer_leaked_without_pixels": false,
+      "passed": true,
+      "fields_correct": 3,
+      "fields_total": 3,
+      "fields": {
+        "first_code": true,
+        "second_code": true,
+        "circle_delta": true
+      },
+      "repeat": 0
+    },
+    {
+      "id": "ocr",
+      "model": "deepseek",
+      "mode": "no-image",
+      "expected": {
+        "code": null
+      },
+      "answer": {
+        "code": null
+      },
+      "raw": "The requested image pixels were not available (Read returned no image content), so the code after ACCESS cannot be read. Per the instruction not to guess, the result is: {\"code\": null}",
+      "error": null,
+      "seconds": 1.659,
+      "image_hashes": [
+        "70aee8208dab8d7d5566ea5d751bb27346145eaf95a066b461d8f7d251ee23f9"
+      ],
+      "image_answer_leaked_without_pixels": false,
+      "passed": true,
+      "fields_correct": 1,
+      "fields_total": 1,
+      "fields": {
+        "code": true
+      },
+      "repeat": 0
+    },
+    {
+      "id": "shapes",
+      "model": "deepseek",
+      "mode": "no-image",
+      "expected": {
+        "blue_circles": null,
+        "red_squares": null,
+        "green_triangles": null
+      },
+      "answer": {
+        "blue_circles": null,
+        "red_squares": null,
+        "green_triangles": null
+      },
+      "raw": "{\"blue_circles\":null,\"red_squares\":null,\"green_triangles\":null}",
+      "error": null,
+      "seconds": 7.513,
+      "image_hashes": [
+        "e485de3a09d87fe48a7ba0333335efe80f6f6a76c513a9a66ad8269c2e4436a8"
+      ],
+      "image_answer_leaked_without_pixels": false,
+      "passed": true,
+      "fields_correct": 3,
+      "fields_total": 3,
+      "fields": {
+        "blue_circles": true,
+        "red_squares": true,
+        "green_triangles": true
+      },
+      "repeat": 1
+    },
+    {
+      "id": "multiple_images",
+      "model": "deepseek",
+      "mode": "image",
+      "expected": {
+        "first_code": "6V8989BV",
+        "second_code": "JZ4P4JU2",
+        "circle_delta": 2
+      },
+      "answer": {
+        "first_code": "6V8989BV",
+        "second_code": "JZ4P4JU2",
+        "circle_delta": 2
+      },
+      "raw": "{\"first_code\":\"6V8989BV\",\"second_code\":\"JZ4P4JU2\",\"circle_delta\":2}",
+      "error": null,
+      "seconds": 1.788,
+      "image_hashes": [
+        "855cfccf74bc6af1bb80d2727e40ff36df0b66302157a3d4a786c54db2b4987b",
+        "381bfe285c1c129be79ee415fb0440537da0a6431a82c6e594e074c1d2a34d03"
+      ],
+      "image_answer_leaked_without_pixels": false,
+      "passed": true,
+      "fields_correct": 3,
+      "fields_total": 3,
+      "fields": {
+        "first_code": true,
+        "second_code": true,
+        "circle_delta": true
+      },
+      "repeat": 1
+    },
+    {
+      "id": "shapes",
+      "model": "deepseek",
+      "mode": "image",
+      "expected": {
+        "blue_circles": 5,
+        "red_squares": 5,
+        "green_triangles": 4
+      },
+      "answer": {
+        "blue_circles": 5,
+        "red_squares": 5,
+        "green_triangles": 4
+      },
+      "raw": "{\"blue_circles\":5,\"red_squares\":5,\"green_triangles\":4}",
+      "error": null,
+      "seconds": 1.704,
+      "image_hashes": [
+        "e485de3a09d87fe48a7ba0333335efe80f6f6a76c513a9a66ad8269c2e4436a8"
+      ],
+      "image_answer_leaked_without_pixels": false,
+      "passed": true,
+      "fields_correct": 3,
+      "fields_total": 3,
+      "fields": {
+        "blue_circles": true,
+        "red_squares": true,
+        "green_triangles": true
+      },
+      "repeat": 1
+    },
+    {
+      "id": "ocr",
+      "model": "deepseek",
+      "mode": "no-image",
+      "expected": {
+        "code": null
+      },
+      "answer": {
+        "code": null
+      },
+      "raw": "{\"code\": null}",
+      "error": null,
+      "seconds": 0.602,
+      "image_hashes": [
+        "85074406a7940196d8d1b144473a61f832d9b3bdf9d5d30f31201d6447fa0c15"
+      ],
+      "image_answer_leaked_without_pixels": false,
+      "passed": true,
+      "fields_correct": 1,
+      "fields_total": 1,
+      "fields": {
+        "code": true
+      },
+      "repeat": 1
+    },
+    {
+      "id": "multiple_images",
+      "model": "deepseek",
+      "mode": "no-image",
+      "expected": {
+        "first_code": null,
+        "second_code": null,
+        "circle_delta": null
+      },
+      "answer": {
+        "first_code": null,
+        "second_code": null,
+        "circle_delta": null
+      },
+      "raw": "{\"first_code\": null, \"second_code\": null, \"circle_delta\": null}",
+      "error": null,
+      "seconds": 0.58,
+      "image_hashes": [
+        "855cfccf74bc6af1bb80d2727e40ff36df0b66302157a3d4a786c54db2b4987b",
+        "381bfe285c1c129be79ee415fb0440537da0a6431a82c6e594e074c1d2a34d03"
+      ],
+      "image_answer_leaked_without_pixels": false,
+      "passed": true,
+      "fields_correct": 3,
+      "fields_total": 3,
+      "fields": {
+        "first_code": true,
+        "second_code": true,
+        "circle_delta": true
+      },
+      "repeat": 1
+    },
+    {
+      "id": "ocr",
+      "model": "deepseek",
+      "mode": "image",
+      "expected": {
+        "code": "BX46DB6J"
+      },
+      "answer": {
+        "code": "BX46DB6J"
+      },
+      "raw": "{\"code\":\"BX46DB6J\"}",
+      "error": null,
+      "seconds": 1.401,
+      "image_hashes": [
+        "85074406a7940196d8d1b144473a61f832d9b3bdf9d5d30f31201d6447fa0c15"
+      ],
+      "image_answer_leaked_without_pixels": false,
+      "passed": true,
+      "fields_correct": 1,
+      "fields_total": 1,
+      "fields": {
+        "code": true
+      },
+      "repeat": 1
+    }
+  ],
+  "note": "Ground truth is generated separately and never sent in prompts, filenames or image metadata. No-pixel controls expect null, not guessed answers. Network failures count as failures."
+}

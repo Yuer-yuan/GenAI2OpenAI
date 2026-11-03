@@ -146,6 +146,10 @@ uv run --locked python tools/claude_code.py setup --directory ..
 
 `GENAI_IMAGE_TRANSPORT=auto` 默认对非 GPT 路由保留原生图文，GPT 保持旧版单图上传；`native` 可强制原生模式，`legacy` 使用旧 GPT 上传模式。格式放行不等于模型具备视觉能力：本次已验证的是学校 DeepSeek 通道，GLM 的文字工具测试不能当作识图通过。DeepSeek Flash 的视觉格式见 [官方说明](https://api-docs.deepseek.com/guides/vision/)。
 
+学校当前 DeepSeek 部署限制**每次请求最多 20 张图片，包含整个对话历史**。连续读取截图后，即使本轮只读一张，也可能触发 `At most 20 image(s) may be provided in one prompt`。这是确定的输入限制；错误外层的 502、临时网络提示或 LiteLLM fallback 提示不会使原请求重试成功。学校端的 fallback 由学校配置，本地网关不会因此切换到付费模型。
+
+网关现在对整段原生图文请求应用图片预算，默认 `GENAI_MAX_IMAGES=20`，可在 `.env` 设置为 1–20。仅在超限时合并完全相同的内联图片，并优先保留较新的历史图片；被移除的历史像素会替换成明确标记，已有文字观察、工具调用 ID 和图文顺序保留。当前用户附件和待处理的工具结果图片受保护。如果这些当前图片自身仍超过预算，返回明确的本地 400，要求分批读取；不会静默丢掉本轮图片。被移除的历史像素无法继续查看，需要精确对照时请重新读取原图。`/v1/messages/count_tokens` 使用同一预算。带 25 张历史图的实际识图回归见 [图片预算验收](benchmarks/image-budget/README.md)。
+
 图片效果验收包含随机文字、图形计数、颜色位置、图表、表格、小字、多图、中英文，以及无图片对照；测试不把答案写入提示词。见 [视觉验收结果与测试图](benchmarks/vision/README.md)。可在项目上一层执行 `./GenAI2OpenAI/vision-benchmark.command` 复跑；仅测接口是否返回 200、或只声明“无法看图”，均不能通过此验收。
 
 工具质量测试已与生成速度测试分开：固定 BFCL 抽样、真实文件与 Python 多步执行、Claude Code 全流程，以及调优前后同题比较，详见 [工具 benchmark](benchmarks/README.md) 和 [本次实测报告](benchmarks/reports/tool-tuning.md)。小样本结果用于本项目回归，不是官方 BFCL 排名分数。
@@ -295,6 +299,7 @@ GPT 旧上传兼容模式的处理流程：
 限制：
 
 - DeepSeek 图像能力已进行真实效果验收，当前请求无需切换模型或调用 GPT 辅助。
+- 学校 DeepSeek 部署限制整段请求最多 20 张图；网关保留当前图片，超限时合并重复内联图或移除较早的历史像素并明确标记。当前图片本身超限需分批读取，见上文图片预算说明。
 - 旧 GPT 上传模式每条消息只支持一张图片；多图需使用兼容原生多模态的模型及 `GENAI_IMAGE_TRANSPORT=native`。
 
 示例：

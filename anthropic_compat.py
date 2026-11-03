@@ -2,8 +2,10 @@
 
 import base64
 import binascii
+import hashlib
 import json
 import logging
+import re
 import uuid
 from urllib.parse import urlparse
 from functools import lru_cache
@@ -53,6 +55,81 @@ def combined_content(parts):
     return [{"type": "text", "text": part} if isinstance(part, str) else part for part in parts]
 
 
+def apply_image_budget(messages, max_images=20):
+    """Bound the entire prompt, protecting new attachments and pending results.
+
+    Only compact over-budget requests. Exact inline images can share pixels;
+    URL images cannot be deduplicated safely because their content may change.
+    Text and tool correlation stay intact, and removed pixels are marked.
+    """
+    if type(max_images) is not int or max_images < 1:
+        raise ValueError("Image budget must be a positive integer")
+    groups, locations = {}, {}
+    for i, message in enumerate(messages):
+        content = message.get("content")
+        if not isinstance(content, list):
+            continue
+        for j, part in enumerate(content):
+            if not isinstance(part, dict) or part.get("type") not in {"image_url", "input_image"}:
+                continue
+            reference = part.get("image_url", part.get("url", ""))
+            url = reference.get("url", "") if isinstance(reference, dict) else reference
+            if not isinstance(url, str):
+                raise ValueError("Image reference must contain a URL")
+            # Include detail: a low-resolution reference must not replace an
+            # independently requested original-resolution view.
+            detail = reference.get("detail", "auto") if isinstance(reference, dict) else part.get("detail", "auto")
+            identity = (url, detail) if url.startswith("data:image/") else (url, detail, i, j)
+            digest = hashlib.sha256(repr(identity).encode()).hexdigest()[:16]
+            groups.setdefault(digest, []).append((i, j))
+            locations[(i, j)] = digest
+    if len(locations) <= max_images:
+        return messages
+
+    last_assistant = max((i for i, message in enumerate(messages) if message.get("role") == "assistant"), default=-1)
+    user_requests = []
+    for i, message in enumerate(messages):
+        if message.get("role") != "user":
+            continue
+        content = message.get("content")
+        text = content if isinstance(content, str) else "\n".join(part.get("text", "") for part in content or [] if isinstance(part, dict))
+        text = re.sub(r"<system-reminder>[\s\S]*?</system-reminder>", "", text).strip()
+        if text or any(location[0] == i for location in locations):
+            user_requests.append(i)
+    last_user = max(user_requests, default=-1)
+    protected = {key for (i, _), key in locations.items() if i > last_assistant or i == last_user}
+    if len(protected) > max_images:
+        raise ValueError(f"Current request needs {len(protected)} different images, but the image limit is {max_images}. "
+                         f"Read or attach these images in batches of at most {max_images}; no current images were discarded.")
+    retained = set(protected)
+    for key in sorted(groups, key=lambda key: groups[key][-1], reverse=True):
+        if len(retained) >= max_images:
+            break
+        retained.add(key)
+    anchors = {key: groups[key][-1] for key in retained}
+    result = []
+    for i, message in enumerate(messages):
+        if not isinstance(message.get("content"), list):
+            result.append(message)
+            continue
+        parts = []
+        for j, part in enumerate(message["content"]):
+            key = locations.get((i, j))
+            if key is None:
+                parts.append(part)
+            elif key not in retained:
+                parts.append({"type": "text", "text": f"[Historical image img_{key} removed from visual context to respect the {max_images}-image limit. "
+                              "Its pixels are not visible in this request. Keep prior written observations; re-read or reattach the original source if needed. Do not invent its contents.]"})
+            elif (i, j) != anchors[key]:
+                parts.append({"type": "text", "text": f"[Duplicate image: exactly the same inline pixels as retained image img_{key}. This reference preserves the original image position.]"})
+            else:
+                parts.extend([{"type": "text", "text": f"[Retained image img_{key}]"}, part])
+        result.append({**message, "content": parts})
+    logger.warning("Compacted image context: received=%s retained=%s historical_removed=%s duplicate_references=%s limit=%s",
+                   len(locations), len(retained), len(groups) - len(retained), len(locations) - len(groups), max_images)
+    return result
+
+
 def text_content(value):
     """Read supported text blocks without silently discarding other user input."""
     if isinstance(value, str):
@@ -91,7 +168,7 @@ def tool_result_content(value):
     return combined_content(parts)
 
 
-def to_openai_request(data, *, count_only=False):
+def to_openai_request(data, *, count_only=False, max_images=20):
     if not isinstance(data, dict):
         raise ValueError("Request body must be a JSON object")
     if not isinstance(data.get("model"), str) or not data["model"].strip():
@@ -170,6 +247,7 @@ def to_openai_request(data, *, count_only=False):
             messages.append(converted)
     if not messages or not any(m["role"] in {"user", "tool"} for m in messages):
         raise ValueError("At least one user message or tool result is required")
+    messages = apply_image_budget(messages, max_images)
 
     tools = []
     server_tools = {}
@@ -332,7 +410,7 @@ def stream_message(payload, complete, stream_events):
         yield sse("error", error={"type": "api_error", "message": str(exc)})
 
 
-def create_anthropic_blueprint(complete, stream_events):
+def create_anthropic_blueprint(complete, stream_events, *, image_limit=None):
     """Callbacks share the OpenAI routes' authentication and completion logic."""
     blueprint = Blueprint("anthropic", __name__)
 
@@ -346,7 +424,7 @@ def create_anthropic_blueprint(complete, stream_events):
     def messages():
         try:
             data = request.get_json()
-            payload = to_openai_request(data)
+            payload = to_openai_request(data, max_images=image_limit() if image_limit else 20)
             if data.get("stream", False):
                 return Response(stream_with_context(stream_message(payload, execute, stream_events)),
                                 mimetype="text/event-stream", headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
@@ -360,7 +438,7 @@ def create_anthropic_blueprint(complete, stream_events):
     @blueprint.post("/v1/messages/count_tokens")
     def count_tokens():
         try:
-            payload = to_openai_request(request.get_json(), count_only=True)
+            payload = to_openai_request(request.get_json(), count_only=True, max_images=image_limit() if image_limit else 20)
             return jsonify({"input_tokens": input_token_count(payload)})
         except (BadRequest, UnsupportedMediaType, ValueError) as exc:
             return error(exc)

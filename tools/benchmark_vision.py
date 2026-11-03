@@ -140,23 +140,42 @@ def score(answer, expected):
     return {"passed": all(matched.values()), "fields_correct": sum(matched.values()), "fields_total": len(matched), "fields": matched}
 
 
-def make_request(case, model, mode):
+def render_history(folder, count):
+    from PIL import Image, ImageDraw, ImageFont
+    folder.mkdir(parents=True, exist_ok=True)
+    font_path = next(path for path in ["/System/Library/Fonts/Supplemental/Arial.ttf", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", "C:/Windows/Fonts/arial.ttf"] if Path(path).exists())
+    font = ImageFont.truetype(font_path, 30)
+    messages = []
+    for index in range(count):
+        image = Image.new("RGB", (380, 160), "white")
+        draw = ImageDraw.Draw(image)
+        draw.text((15, 20), f"OLD FRAME {index:02d}", fill="black", font=font)
+        draw.rectangle((20, 80, 100 + index, 130), fill=(170 + index % 60, 10, 10))
+        path = folder / f"{index:02d}.png"
+        image.save(path)
+        source = {"type": "base64", "media_type": "image/png", "data": base64.b64encode(path.read_bytes()).decode()}
+        messages += [{"role": "user", "content": [{"type": "image", "source": source}]},
+                     {"role": "assistant", "content": f"Saved observation: historical frame {index:02d}, a red rectangle and label OLD FRAME {index:02d}."}]
+    return messages
+
+
+def make_request(case, model, mode, history=None):
     content = [{"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": base64.b64encode(path.read_bytes()).decode()}}
                for path in case["paths"]] if mode == "image" else [{"type": "text", "text": "No image pixels attached in this ablation. Do not guess unknown visual facts."}]
-    return {"model": model, "max_tokens": 1024, "messages": [
-        {"role": "user", "content": case["question"] + " Use null for facts that cannot be read. Do not guess. Return only the requested JSON."},
+    return {"model": model, "max_tokens": 1024, "messages": [*(history or []),
+        {"role": "user", "content": "Use only the newly returned Read images for this question; older images are unrelated historical context. " + case["question"] + " Use null for facts that cannot be read. Do not guess. Return only the requested JSON."},
         {"role": "assistant", "content": [{"type": "tool_use", "id": "vision_read", "name": "Read", "input": {"file_path": "image.png"}}]},
         {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "vision_read", "content": content}]}],
         "tools": [{"name": "Read", "description": "Read a file; the requested images have already been returned by this tool.",
                    "input_schema": {"type": "object", "properties": {"file_path": {"type": "string"}}, "required": ["file_path"]}}]}
 
 
-def run_case(case, model, mode, base_url):
+def run_case(case, model, mode, base_url, history=None):
     expected = case["expected"] if mode == "image" else {key: None for key in case["expected"]}
     started = time.monotonic(); answer = {}; error = None; raw = ""
     try:
         session = requests.Session(); session.trust_env = False
-        response = session.post(base_url.rstrip("/") + "/v1/messages", json=make_request(case, model, mode), timeout=(5, 100))
+        response = session.post(base_url.rstrip("/") + "/v1/messages", json=make_request(case, model, mode, history), timeout=(5, 100))
         response.raise_for_status(); message = response.json()
         raw = "\n".join(part.get("text", "") for part in message.get("content", []) if part.get("type") == "text")
         answer = json_answer(raw)
@@ -194,12 +213,19 @@ def main():
     parser.add_argument("--mode", choices=["image", "no-image", "both"], default="both")
     parser.add_argument("--min-accuracy", type=float, default=0.9)
     parser.add_argument("--generate-only", action="store_true")
+    parser.add_argument("--history-images", type=int, default=0, help="Prepend distinct, already-observed old images to exercise the prompt budget")
+    parser.add_argument("--cases", nargs="+", help="Optional case IDs for focused regressions")
     args = parser.parse_args()
-    if args.repeats < 1 or not 0 <= args.min_accuracy <= 1:parser.error("Invalid repeat count or accuracy threshold")
+    if args.repeats < 1 or not 0 <= args.min_accuracy <= 1 or args.history_images < 0:parser.error("Invalid repeat count, accuracy threshold or history size")
     args.output_dir.mkdir(parents=True, exist_ok=True)
+    history = render_history(args.output_dir / "history", args.history_images) if args.history_images else []
     results = []
     for repeat in range(args.repeats):
         cases = render_cases(args.output_dir / f"fixtures-{repeat}", args.seed + repeat)
+        if args.cases:
+            selected = set(args.cases)
+            if selected - {case["id"] for case in cases}:parser.error("Unknown or unavailable case ID")
+            cases = [case for case in cases if case["id"] in selected]
         manifest = [{**case, "paths": [str(path) for path in case["paths"]]} for case in cases]
         (args.output_dir / f"manifest-{repeat}.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
         if args.generate_only:continue
@@ -207,10 +233,11 @@ def main():
                 for mode in (["image", "no-image"] if args.mode == "both" else [args.mode])]
         random.Random(args.seed + repeat).shuffle(jobs)
         for case, model, mode in jobs:
-            row = {**run_case(case, model, mode, args.base_url), "repeat": repeat}
+            row = {**run_case(case, model, mode, args.base_url, history), "repeat": repeat}
             results.append(row)
             print(f"{model} {case['id']} {mode}: {'PASS' if row['passed'] else 'FAIL'} {row['fields_correct']}/{row['fields_total']} fields ({row['seconds']}s)", flush=True)
-            report = {"seed": args.seed, "repeats": args.repeats, "complete": repeat == args.repeats - 1 and len(results) == len(jobs) * args.repeats,
+            report = {"seed": args.seed, "repeats": args.repeats, "history_images": args.history_images, "case_filter": args.cases,
+                      "complete": repeat == args.repeats - 1 and len(results) == len(jobs) * args.repeats,
                       "source_sha256": {name: hashlib.sha256((PROJECT / name).read_bytes()).hexdigest() for name in ["main.py", "anthropic_compat.py", "tools/benchmark_vision.py"]},
                       "summary": summarize(results), "results": results,
                       "note": "Ground truth is generated separately and never sent in prompts, filenames or image metadata. No-pixel controls expect null, not guessed answers. Network failures count as failures."}

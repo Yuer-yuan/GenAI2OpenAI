@@ -1,0 +1,6 @@
+{
+  "input_images_without_budget": 26,
+  "outcome": "rejected_without_budget",
+  "error_type": "RuntimeError",
+  "image_limit_error": "At most 20 image(s) may be provided in one prompt"
+}

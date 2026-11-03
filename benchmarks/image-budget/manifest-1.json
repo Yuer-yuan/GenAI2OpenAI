@@ -1,0 +1,37 @@
+[
+  {
+    "id": "ocr",
+    "paths": [
+      "fixtures-1/00-0.png"
+    ],
+    "question": "Read the code after ACCESS. Return JSON with key code.",
+    "expected": {
+      "code": "BX46DB6J"
+    }
+  },
+  {
+    "id": "shapes",
+    "paths": [
+      "fixtures-1/01-0.png"
+    ],
+    "question": "Count the blue circles, red squares and green triangles. Return JSON keys blue_circles, red_squares, green_triangles.",
+    "expected": {
+      "blue_circles": 5,
+      "red_squares": 5,
+      "green_triangles": 4
+    }
+  },
+  {
+    "id": "multiple_images",
+    "paths": [
+      "fixtures-1/06-0.png",
+      "fixtures-1/06-1.png"
+    ],
+    "question": "Compare the first and second image in order. Return JSON keys first_code, second_code, circle_delta (second blue circle count minus first).",
+    "expected": {
+      "first_code": "6V8989BV",
+      "second_code": "JZ4P4JU2",
+      "circle_delta": 2
+    }
+  }
+]
