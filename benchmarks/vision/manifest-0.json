@@ -1,0 +1,107 @@
+[
+  {
+    "id": "ocr",
+    "paths": [
+      "fixtures-0/00-0.png"
+    ],
+    "question": "Read the code after ACCESS. Return JSON with key code.",
+    "expected": {
+      "code": "84845HUZ"
+    }
+  },
+  {
+    "id": "shapes",
+    "paths": [
+      "fixtures-0/01-0.png"
+    ],
+    "question": "Count the blue circles, red squares and green triangles. Return JSON keys blue_circles, red_squares, green_triangles.",
+    "expected": {
+      "blue_circles": 2,
+      "red_squares": 2,
+      "green_triangles": 4
+    }
+  },
+  {
+    "id": "bar_chart",
+    "paths": [
+      "fixtures-0/02-0.png"
+    ],
+    "question": "Read this chart. Return JSON keys highest_label, highest_value, spread (highest minus lowest).",
+    "expected": {
+      "highest_label": "D",
+      "highest_value": 82,
+      "spread": 41
+    }
+  },
+  {
+    "id": "table",
+    "paths": [
+      "fixtures-0/03-0.png"
+    ],
+    "question": "For item CK, return JSON keys quantity, unit_price and total (quantity times unit price).",
+    "expected": {
+      "quantity": 8,
+      "unit_price": 36,
+      "total": 288
+    }
+  },
+  {
+    "id": "spatial_colors",
+    "paths": [
+      "fixtures-0/04-0.png"
+    ],
+    "question": "Return the colors of the four rectangles as JSON keys top_left, top_right, bottom_left, bottom_right.",
+    "expected": {
+      "top_left": "red",
+      "top_right": "blue",
+      "bottom_left": "yellow",
+      "bottom_right": "green"
+    }
+  },
+  {
+    "id": "small_text",
+    "paths": [
+      "fixtures-0/05-0.png"
+    ],
+    "question": "Read the SESSION value from the status screenshot. Return JSON key session.",
+    "expected": {
+      "session": "PEPA85F8"
+    }
+  },
+  {
+    "id": "multiple_images",
+    "paths": [
+      "fixtures-0/06-0.png",
+      "fixtures-0/06-1.png"
+    ],
+    "question": "Compare the first and second image in order. Return JSON keys first_code, second_code, circle_delta (second blue circle count minus first).",
+    "expected": {
+      "first_code": "DJSS2B39",
+      "second_code": "HFHVKT8J",
+      "circle_delta": 4
+    }
+  },
+  {
+    "id": "blank",
+    "paths": [
+      "fixtures-0/07-0.png"
+    ],
+    "question": "Read the access code if one is present and count visible circles. Return JSON keys code (null if absent), circles.",
+    "expected": {
+      "code": null,
+      "circles": 0
+    }
+  },
+  {
+    "id": "chinese_ocr",
+    "paths": [
+      "fixtures-0/08-0.png"
+    ],
+    "question": "读取图中文字。仅返回 JSON，字段 title（首行原文）、code（编号）、amount（数字）。",
+    "expected": {
+      "title": "系统运行正常",
+      "code": "TANAPTDC",
+      "amount": 848
+    }
+  }
+]

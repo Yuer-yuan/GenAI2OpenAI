@@ -128,7 +128,7 @@ def main():
     for command in ("setup", "run"):
         sub = commands.add_parser(command)
         sub.add_argument("--directory", type=Path, default=Path.cwd())
-        sub.add_argument("--model", choices=["glm", "deepseek"], default="glm")
+        sub.add_argument("--model", choices=["glm", "deepseek"], default="deepseek")
         sub.add_argument("--permission-mode", choices=["bypassPermissions", "manual", "acceptEdits", "plan", "dontAsk", "auto"], default="bypassPermissions")
         if command == "run":
             sub.add_argument("claude_args", nargs=argparse.REMAINDER)

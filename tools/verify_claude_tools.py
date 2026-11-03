@@ -25,6 +25,14 @@ def test_case(name, directory, timeout, model="deepseek"):
         tools = ["WebSearch"]
         prompt = "实际调用 WebSearch 搜索 Python official documentation，返回实际结果中的官方文档标题与链接；不要凭记忆回答。"
         marker = "python.org"
+    elif name == "image":
+        tools = ["Read", "Write", "Bash"]
+        fixture = folder / "fixture.png"
+        fixture.write_bytes((PROJECT / "tests/fixtures/vision/read_probe.png").read_bytes())
+        prompt = (f"实际调用 Read 读取 {fixture}。根据真实像素识别 ACCESS 后面的代码、蓝色圆形数量和矩形颜色。"
+                  f"使用 Write 将结果写入 {folder / 'observations.json'}，JSON 字段为 access_code、blue_circles、rectangle_color（英文颜色）。"
+                  "再用 Bash 运行 python3 读取该文件并打印 JSON。看不到图片时字段填 null，不要猜测。只操作这个测试目录。")
+        marker = None
     elif name == "files":
         tools = ["Glob", "Grep", "Read", "Edit", "Write", "Bash"]
         (folder / "a_marker.txt").write_text("phase=before\nGENAI_TOOL_4827\n")
@@ -62,6 +70,7 @@ def test_case(name, directory, timeout, model="deepseek"):
     (folder / "events.jsonl").write_text(completed.stdout)
     (folder / "stderr.txt").write_text(completed.stderr)
     calls = {}
+    image_returned = False
     details = []
     results = []
     final = {}
@@ -83,6 +92,9 @@ def test_case(name, directory, timeout, model="deepseek"):
                 calls[block["id"]] = block.get("name")
                 details.append(block)
             elif block.get("type") == "tool_result":
+                content = block.get("content", [])
+                if isinstance(content, list) and any(isinstance(part, dict) and part.get("type") == "image" for part in content):
+                    image_returned = True
                 results.append({"tool": calls.get(block.get("tool_use_id")), "error": bool(block.get("is_error")),
                                 "content": str(block.get("content", ""))})
     successful = {result["tool"] for result in results if not result["error"]}
@@ -99,6 +111,12 @@ def test_case(name, directory, timeout, model="deepseek"):
         passed = passed and any(b.get("name") == "TaskUpdate" and b.get("input", {}).get("status") == "completed" for b in details)
         passed = passed and any(r["tool"] == "TaskList" and not r["error"]
                                 and marker in r["content"] and "completed" in r["content"] for r in results)
+    if name == "image":
+        expected = {"access_code": "Q7M2K9", "blue_circles": 3, "rectangle_color": "red"}
+        observed = folder / "observations.json"
+        actual = json.loads(observed.read_text()) if observed.exists() else {}
+        passed = passed and image_returned and all(actual.get(key) == value for key, value in expected.items())
+        passed = passed and any(r["tool"] == "Bash" and not r["error"] and "Q7M2K9" in r["content"] for r in results)
     if name == "workflow":
         passed = passed and any(r["tool"] == "WebSearch" and not r["error"]
                                 and re.search(r"https?://", r["content"])
@@ -118,11 +136,11 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--directory", type=Path, default=Path.cwd())
     parser.add_argument("--model", choices=["deepseek", "glm"], default="deepseek")
-    parser.add_argument("--case", choices=["all", "webfetch", "websearch", "files", "tasks", "workflow"], default="all")
+    parser.add_argument("--case", choices=["all", "webfetch", "websearch", "image", "files", "tasks", "workflow"], default="all")
     parser.add_argument("--timeout", type=int, default=240)
     parser.add_argument("--report", type=Path, help="Write all case results as a JSON array")
     args = parser.parse_args()
-    cases = ["webfetch", "websearch", "files", "tasks", "workflow"] if args.case == "all" else [args.case]
+    cases = ["webfetch", "websearch", "image", "files", "tasks", "workflow"] if args.case == "all" else [args.case]
     passed = True
     reports = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=2) as pool:

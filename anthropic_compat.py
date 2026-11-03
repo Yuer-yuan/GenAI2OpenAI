@@ -1,8 +1,11 @@
 """Anthropic Messages transport over the shared GenAI completion backend."""
 
+import base64
+import binascii
 import json
 import logging
 import uuid
+from urllib.parse import urlparse
 from functools import lru_cache
 
 import tiktoken
@@ -12,6 +15,42 @@ from werkzeug.exceptions import BadRequest, UnsupportedMediaType
 from web_search import run_server_tools, search_result_text, validate_search_options
 
 logger = logging.getLogger("genai-proxy")
+GPT_IMAGE_PREFIXES = ("gpt-", "gpt", "o3", "o4-mini")
+
+
+def image_content(block):
+    """Preserve real pixels as a native multimodal input, never text base64."""
+    source = block.get("source")
+    if not isinstance(source, dict):
+        raise ValueError("image requires a source object")
+    source_type = source.get("type")
+    if source_type == "base64":
+        media_type, data = source.get("media_type"), source.get("data")
+        if media_type not in {"image/jpeg", "image/png", "image/gif", "image/webp"}:
+            raise ValueError("Unsupported image media_type")
+        if not isinstance(data, str) or not data:
+            raise ValueError("image source.data must be a non-empty base64 string")
+        try:
+            base64.b64decode(data, validate=True)
+        except (ValueError, binascii.Error) as exc:
+            raise ValueError("image source.data is not valid base64") from exc
+        url = f"data:{media_type};base64,{data}"
+    elif source_type == "url":
+        url = source.get("url")
+        if not isinstance(url, str) or urlparse(url).scheme not in {"http", "https"} or not urlparse(url).netloc:
+            raise ValueError("image source.url must be an HTTP or HTTPS URL")
+    elif source_type == "file" and isinstance(source.get("file_id"), str) and source["file_id"]:
+        raise ValueError("This gateway cannot resolve Anthropic file_id images; provide base64 or an HTTP image URL")
+    else:
+        raise ValueError("image source must use base64, url, or file with file_id")
+    return {"type": "image_url", "image_url": {"url": url}}
+
+
+def combined_content(parts):
+    """Keep text-only histories stable while retaining actual image parts."""
+    if all(isinstance(part, str) for part in parts):
+        return "\n".join(parts)
+    return [{"type": "text", "text": part} if isinstance(part, str) else part for part in parts]
 
 
 def text_content(value):
@@ -45,9 +84,11 @@ def tool_result_content(value):
             parts.append(f"{block.get('title', '')}\nSource: {block.get('source', '')}\n" + text_content(block.get("content", [])))
         elif block.get("type") == "tool_reference":
             parts.append("Available tool: " + str(block.get("tool_name", "")))
+        elif block.get("type") == "image":
+            parts.append(image_content(block))
         else:
             raise ValueError(f"Unsupported tool_result content block: {block.get('type')}")
-    return "\n".join(parts)
+    return combined_content(parts)
 
 
 def to_openai_request(data, *, count_only=False):
@@ -87,6 +128,8 @@ def to_openai_request(data, *, count_only=False):
             block_type = block.get("type")
             if block_type == "text":
                 pending_text.append(text_content([block]))
+            elif block_type == "image" and role == "user":
+                pending_text.append(image_content(block))
             elif block_type in {"tool_use", "server_tool_use"} and role == "assistant":
                 if not block.get("id") or not block.get("name") or not isinstance(block.get("input"), dict):
                     raise ValueError("tool_use requires id, name and an input object")
@@ -98,7 +141,7 @@ def to_openai_request(data, *, count_only=False):
                 if not block.get("tool_use_id"):
                     raise ValueError("web_search_tool_result requires tool_use_id")
                 if pending_text or tool_calls:
-                    converted = {"role": "assistant", "content": "\n".join(pending_text) or None}
+                    converted = {"role": "assistant", "content": combined_content(pending_text) or None}
                     if tool_calls:
                         converted["tool_calls"] = tool_calls
                     messages.append(converted)
@@ -109,11 +152,11 @@ def to_openai_request(data, *, count_only=False):
                 if not block.get("tool_use_id"):
                     raise ValueError("tool_result requires tool_use_id")
                 if pending_text:
-                    messages.append({"role": "user", "content": "\n".join(pending_text)})
+                    messages.append({"role": "user", "content": combined_content(pending_text)})
                     pending_text = []
                 result = tool_result_content(block.get("content", ""))
                 if block.get("is_error"):
-                    result = "Tool error:\n" + result
+                    result = "Tool error:\n" + result if isinstance(result, str) else [{"type": "text", "text": "Tool error:\n"}, *result]
                 messages.append({"role": "tool", "tool_call_id": block["tool_use_id"], "content": result})
             elif block_type in {"thinking", "redacted_thinking"} and role == "assistant":
                 # Upstream reasoning has no Anthropic signature and is not replayed.
@@ -121,7 +164,7 @@ def to_openai_request(data, *, count_only=False):
             else:
                 raise ValueError(f"Unsupported content block: {block_type}")
         if pending_text or tool_calls:
-            converted = {"role": role, "content": "\n".join(pending_text) or None}
+            converted = {"role": role, "content": combined_content(pending_text) or None}
             if tool_calls:
                 converted["tool_calls"] = tool_calls
             messages.append(converted)
@@ -182,7 +225,22 @@ def estimate_tokens(value):
 
 
 def input_token_count(payload):
-    return estimate_tokens({"messages": payload["messages"], "tools": payload["tools"]})
+    messages, images = [], 0
+    for message in payload["messages"]:
+        content = message.get("content")
+        if isinstance(content, list):
+            parts = []
+            for part in content:
+                if isinstance(part, dict) and part.get("type") == "image_url":
+                    images += 1
+                    parts.append({"type": "text", "text": "[image]"})
+                else:
+                    parts.append(part)
+            content = parts
+        messages.append({**message, "content": content})
+    # An explicit estimate, not a model-native image token accounting rule.
+    # Counting the base64 bytes as text can incorrectly exhaust client context.
+    return estimate_tokens({"messages": messages, "tools": payload["tools"]}) + 1024 * images
 
 
 def to_anthropic_response(completion, input_tokens, *, message_id=None):

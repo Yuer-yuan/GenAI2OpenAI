@@ -11,7 +11,7 @@
 | BFCL 固定抽样 | 单工具、多工具选择、并行调用、无关工具拒用 | 工具名与参数逐项匹配，调用一一对应，不能只返回合法 JSON |
 | 本地回传 | 读后写、错误恢复、中英文继续执行、缺参澄清、工具结果中的指令、执行后的总结 | 核对下一步调用、参数或实际结果标记 |
 | 多步执行 | 读数据写排序脚本并运行、修复程序并运行、读取文件指针后计算、文件缺失后的恢复 | 真实文件、真实 Python 子进程、独立状态与输出检查；最终回复须包含运行后才产生的 run_id |
-| Claude Code | WebFetch、WebSearch、Glob/Grep/Read/Edit/Write/Bash、任务管理、搜索→写程序→运行 | 真正启动 Claude Code，检查工具结果和磁盘状态，重新运行生成的基准程序 |
+| Claude Code | WebFetch、WebSearch、Read 图片、Glob/Grep/Read/Edit/Write/Bash、任务管理、搜索→写程序→运行 | 真正启动 Claude Code，检查工具结果和磁盘状态；图片项必须正确识别像素事实、写 JSON 并执行检查，拒绝识图不算成功 |
 
 BFCL 数据来自 [Berkeley Function Calling Leaderboard](https://github.com/ShishirPatil/gorilla/tree/main/berkeley-function-call-leaderboard)，固定到 `6ea57973c7a6097fd7c5915698c54c17c5b1b6c8`。四类各用固定随机种子抽取 6 题，共 24 题；每类前 3 题为 dev、后 3 题为 holdout。本地另有 12 题，总计 36 个不同任务；每个 split 18 题。模型看到的请求不含标准答案。
 
@@ -35,6 +35,12 @@ uv run --locked python tools/benchmark_tools.py --split all --min-success-rate 0
 # 真实 Claude Code 工作流；为测试工作目录生成其本地配置
 uv run --locked python tools/verify_claude_tools.py --directory .. --model deepseek --case all --report temp/claude-deepseek.json
 uv run --locked python tools/verify_claude_tools.py --directory .. --model glm --case all --report temp/claude-glm.json
+
+# 验证 Read 返回 image 后，实际识别、写文件、运行的完整流程
+uv run --locked python tools/verify_claude_tools.py --directory .. --model deepseek --case image
+
+# 视觉效果：随机测试图、标准答案，以及无像素对照
+uv run --locked --group vision python tools/benchmark_vision.py --models deepseek --seed 93841
 
 # 离线回归（含真正启动本地重载服务、评分器反例；不请求学校模型）
 uv run --locked python -m unittest discover -s tests -q
@@ -69,6 +75,8 @@ uv run --locked python tools/compare_tool_benchmarks.py --before temp/before.jso
 ## 本次实测
 
 [同题对比报告](reports/tool-tuning.md) 和 [机器可读报告](reports/tool-tuning.json) 保留了开发集、holdout、纠正次数、延迟和全部剩余失败。原始运行记录在 `reports/runs/`，包括失败的原生历史实验；协议改动补丁在 `reports/baseline-to-tuned.patch`。
+
+这些调优报告对应首次发布提交 `2fd5aad`，原始记录保留当时的源码指纹；后续修复不会改写历史测量。复原该版本或应用其协议补丁时应使用对应提交。新增的 `--case image` 和 [视觉效果验收](vision/README.md) 是实际识图的独立回归，不包含在历史报告的五类工作流中。
 
 本次每模型每 split 18 题 × 2 次。开发集用于三次候选实验；最终协议冻结后才执行 holdout，未根据它继续修改协议。真实 Claude Code 五类任务两种模型均通过；这仍是小样本回归，不能保证任意任务都成功。重复运行共享题目，不是 36 道独立测试题；没有统计显著性结论。
 

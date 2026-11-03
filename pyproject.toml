@@ -20,3 +20,8 @@ dependencies = [
     "ddgs>=9.16.1,<10",
     "jsonschema>=4.23,<5",
 ]
+
+[dependency-groups]
+vision = [
+    "pillow>=11,<13",
+]

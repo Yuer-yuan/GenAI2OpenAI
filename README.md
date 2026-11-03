@@ -20,7 +20,7 @@ GenAI 是一个基于 Flask 的聊天机器人接口服务，兼容 OpenAI 的�
 | 推理内容字段（reasoning）                 | 部分模型支持    | ✅ 兼容输出    | 通过 `reasoning_content` / `response.reasoning.delta` 暴露 |
 | Tool Calling（`tools/tool_choice`）       | ✅ 原生         | ✅ 提示词兼容  | 上游无原生工具调用，本项目做 JSON 约定与本地解析           |
 | 旧版函数调用（`functions/function_call`） | 已逐步废弃      | ✅ 兼容        | 自动转换为 `tools/tool_choice` 语义                        |
-| 图片输入（Vision）                        | ✅              | ✅（GPT 模型） | 服务端自动上传图片并注入 `imageUrl/width/height`           |
+| 图片输入（Vision）                        | ✅              | ✅（DeepSeek 原生 / GPT 兼容） | DeepSeek 原生图文；GPT 保留旧上传模式 |
 | 模型列表接口（`GET /v1/models`）          | ✅              | ✅             | 返回本项目映射后的可用模型列表                             |
 | 认证头兼容（Bearer/API Key）              | ✅              | ✅             | 支持 `Authorization`、`X-Access-Token`、`api-key` 等       |
 
@@ -60,7 +60,7 @@ uv run --locked python main.py
 
 本机开发配置默认 `GENAI_RELOAD=1`：修改 Python 源码或 `.env` 后，服务自动重启工作进程，后续 API 请求使用新代码和配置，不必退出 Claude Code。日志、`.venv`、`temp/` 等目录的变化不会触发重载。重载时正在进行的请求可能中断，需要重试；这不是在原进程内替换函数。`/health` 的 `runtime` 会显示工作进程 PID、重载开关和日志级别。关闭可设置 `GENAI_RELOAD=0` 或运行 `./start.command --no-reload`；关闭后，重新开启需要再次启动服务。
 
-程序每次启动会自行读取 `.env`，因此开发重载时请使用上述命令，不要额外用 `uv --env-file` 将文件内容固定到父进程环境。显式环境变量和命令行参数仍优先于 `.env`。监听地址由父进程持有，修改 host/port 需手动重启服务，并同步调整客户端连接地址。此重载范围是 API 服务代码与 `.env`；启动脚本、依赖安装和 Claude Code 设置不随之重载。
+程序每次启动会自行读取 `.env`，因此开发重载时请使用上述命令，不要额外用 `uv --env-file` 将文件内容固定到父进程环境。显式环境变量和命令行参数仍优先于 `.env`。监听地址由父进程持有，修改 host/port 需手动重启服务，并同步调整客户端连接地址。此重载范围是 API 服务代码与 `.env`；`tests/`、`tools/` 不会触发 API 重载，避免编写 benchmark 时打断实际请求。独立工具脚本、依赖安装和 Claude Code 设置需重新启动相应进程才生效。
 
 在 Chatbox 等支持 OpenAI 兼容接口的客户端中填写：
 
@@ -94,7 +94,7 @@ uv run main.py [--token <token>] [--account <student_id@password>] [--upload-tok
 - 兼容 OpenAI API，支持 `POST /v1/chat/completions`、`POST /v1/responses`接口，实现智能聊天功能。
 - 支持流式（stream）及非流式响应，方便高效地获取 AI 回复。
 - `POST /v1/chat/completions` 支持基于提示词工程和 JSON 解析的 OpenAI `tools`/`tool_choice` 兼容工具调用，也兼容旧版 `functions`/`function_call` 入参。
-- `POST /v1/chat/completions` 支持图片输入（服务端自动上传到 GenAI 图片服务后再发起对话），当前**仅 GPT 系列模型可用**。
+- `POST /v1/chat/completions` 支持图片输入：DeepSeek 保留原生多模态内容，GPT 默认沿用图片上传兼容模式。
 - 提供 `/v1/models` 接口列出可用模型，如 `deepseek-pro`、`deepseek-chat`、`gpt-5.5`、`glm-5.1` 等。
 - 内置 `/health` 健康检查接口，用于服务状态监测。
 
@@ -114,7 +114,7 @@ uv run main.py [--token <token>] [--account <student_id@password>] [--upload-tok
 ./GenAI2OpenAI/claude.command --model deepseek
 ```
 
-启动器会检查本地服务，必要时自动启动，并为**当前目录**生成 `.claude/settings.local.json`。默认模型为 `glm`；在会话中可用 `/model glm` 和 `/model deepseek` 切换。模型别名对应当前平台的 `chatglm`（GLM-5.3-Flash）和 `deepseek-pro`（DeepSeek-V4.1-Flash），不是 Claude 模型。
+启动器会检查本地服务，必要时自动启动，并为**当前目录**生成 `.claude/settings.local.json`。默认模型为已通过工具与识图验收的 `deepseek`；在会话中可用 `/model glm` 和 `/model deepseek` 切换。模型别名对应当前平台的 `chatglm`（GLM-5.3-Flash）和 `deepseek-pro`（DeepSeek-V4.1-Flash），不是 Claude 模型。
 
 启动器默认传入 `--permission-mode bypassPermissions`，工具调用（包括 Bash）自动执行；已有明确的 deny 规则仍由 Claude Code 处理。同时，项目配置设置 `disableAutoMode: "disable"`，默认关闭 Auto 模式，避免权限分类器不可用时拦住 Bash。此模式按本机用户要求设置，不依赖学校模型提供 Claude Code 的 Auto 模式权限分类器。新版 Claude Code 不接受仅从项目配置开启 `bypassPermissions`，因此需要使用启动器，或直接运行 `claude --permission-mode bypassPermissions`。若想逐次确认工具操作，可用 `./claude.command --permission-mode manual`。
 
@@ -135,12 +135,18 @@ uv run --locked python tools/claude_code.py setup --directory ..
 - 支持系统提示词、文本消息、客户端工具定义、`tool_use` / `tool_result` 往返，以及 Anthropic SSE 流式事件。
 - 普通文本逐段转发；带工具的请求沿用本项目的提示词工具调用，需要先收集完整输出再转换为 `tool_use`。工具调用能力仍取决于上游模型。
 - 这不是原生 DeepSeek / GLM 工具协议的无损透传。当前学校聊天接口在标准 `tools` / `tool_choice` 探测中没有返回原生工具调用，网关因此使用提示词约定。Claude Code 路径要求模型输出工具 JSON 或 `{"final":"回答"}`；格式不合法时最多进行一次纠正，仍不合法则返回错误，避免把未执行的操作误报为完成。解析器兼容对象、OpenAI 工具调用数组及 XML 工具块。
-- Token 计数使用 `cl100k_base` 估算，不代表 GLM / DeepSeek 的精确用量。没有原生 Anthropic 提示词缓存、签名思考块、图片或文档输入能力；服务端工具目前支持 `web_search`，其他不支持的输入会返回错误。
+- Token 计数使用 `cl100k_base` 估算，不代表 GLM / DeepSeek 的精确用量。没有原生 Anthropic 提示词缓存或签名思考块；服务端工具目前支持 `web_search`。图片块的处理见下文，文档输入仍不支持。
 - Claude Code 对自定义模型显示的费用与上下文信息也只是客户端估计，不能用作平台账单或模型上限。上游偶尔返回空回复时会明确报错，由客户端决定重试。
 - `CLAUDE_CODE_MAX_OUTPUT_TOKENS=8192` 是单次生成长度限制，不是上下文窗口。出现“我来写/运行”但没有文件或命令结果时，应先检查工具调用链路，不能仅据此认定上下文不足。
 - 本地验证：`uv run --locked python -m unittest discover -s tests -v`。
 
 工具调优现采用统一的 JSON 历史：保留工具名、调用 ID、参数对象及结果状态，避免把参数字符串再次转义；执行结果附带继续原任务的说明。实际调用前校验参数 JSON Schema，并执行 `tool_choice` 约束，错误最多纠正一次。标准上游 `tool_calls` SSE 增量也会收集和校验，但不能据此认定学校接口完整暴露了原生工具协议。`GENAI_TOOL_HISTORY` 默认 `tagged`；`legacy` 可回放旧格式，`native` 为诊断选项，本轮完整测试中它导致 DeepSeek 多轮空回复，因此不作为默认。
+
+`tool_result.content` 可以合法包含 `image`。网关接受 base64 / URL 图片与混合文字，并保留真实图片。DeepSeek 原生视觉使用多模态 `content`，不再把图片丢弃、转成占位文字或错误地使用旧 `imageUrl` 字段；工具结果保留调用 ID 和名称，实际图片作为 user 图文内容送给模型。支持单图、多图及直接用户图片，不会自动切换到 GPT。Anthropic `file_id` 无法用学校接口解析，会返回要求提供 base64 / URL 的明确错误。图像计数按每张最多 1024 token 作粗略估算，不把 base64 当正文计数，不能用作计费依据。
+
+`GENAI_IMAGE_TRANSPORT=auto` 默认对非 GPT 路由保留原生图文，GPT 保持旧版单图上传；`native` 可强制原生模式，`legacy` 使用旧 GPT 上传模式。格式放行不等于模型具备视觉能力：本次已验证的是学校 DeepSeek 通道，GLM 的文字工具测试不能当作识图通过。DeepSeek Flash 的视觉格式见 [官方说明](https://api-docs.deepseek.com/guides/vision/)。
+
+图片效果验收包含随机文字、图形计数、颜色位置、图表、表格、小字、多图、中英文，以及无图片对照；测试不把答案写入提示词。见 [视觉验收结果与测试图](benchmarks/vision/README.md)。可在项目上一层执行 `./GenAI2OpenAI/vision-benchmark.command` 复跑；仅测接口是否返回 200、或只声明“无法看图”，均不能通过此验收。
 
 工具质量测试已与生成速度测试分开：固定 BFCL 抽样、真实文件与 Python 多步执行、Claude Code 全流程，以及调优前后同题比较，详见 [工具 benchmark](benchmarks/README.md) 和 [本次实测报告](benchmarks/reports/tool-tuning.md)。小样本结果用于本项目回归，不是官方 BFCL 排名分数。
 
@@ -160,6 +166,7 @@ uv run --project GenAI2OpenAI --locked python GenAI2OpenAI/tools/verify_claude_c
 | 能力 | 工具 / 接入方式 | 验证内容 |
 | --- | --- | --- |
 | 文件读写与修改 | Read / Write / Edit | 创建文件、读取内容、精确替换并核对结果 |
+| 工具图片返回 | Read / Write / Bash | 读取 PNG，识别代码与图形，写 JSON 并实际运行检查 |
 | 文件发现与代码搜索 | Glob / Grep | 找到文件和其中的指定标记 |
 | 命令执行 | Bash | 实际运行 Python 程序和断言 |
 | 网页读取 | WebFetch | 抓取网页，再使用当前模型提取页面标题 |
@@ -269,7 +276,7 @@ uv run tools/skills/context_length_tester/context_length_tester.py --model deeps
 - 同时兼容 XML 标签形式的工具调用块：`<tool_call>{"name":"...","arguments":{...}}</tool_call>`；
 - 当模型输出多个 `<tool_call>...</tool_call>` 块时，会按顺序解析为多个 `tool_calls`。
 
-### 图片输入（仅 GPT 模型）
+### 图片输入
 
 `/v1/chat/completions` 支持 OpenAI 常见多模态消息格式：
 
@@ -277,16 +284,18 @@ uv run tools/skills/context_length_tester/context_length_tester.py --model deeps
 - `type: "input_image"` + `image_url.url` / `url`
 - 支持 `data:image/...;base64,...` 的 data URL
 
-服务端行为：
+DeepSeek 原生模式将文本和 `image_url` 内容块直接发送到学校接口，图片不会变成提示词中的 base64 字符串，也无需配置图片上传 Token。Anthropic 用户消息及 `tool_result` 中的 `image` 会转换为同样的多模态结构。
 
-1. 从最后一条包含图片的 user message 提取图片输入。
+GPT 旧上传兼容模式的处理流程：
+
+1. 从最后一条包含图片的用户消息或工具结果提取图片输入。
 2. 自动调用 GenAI 图片上传接口 `https://genaipic.shanghaitech.edu.cn//sys/common/upload`。
 3. 将返回的 `imageUrl`、`width`、`height` 透传到上游对话请求。
 
 限制：
 
-- 图片能力仅对 GPT/Azure 路由模型开放（如 `gpt-5.5`、`gpt-4.1`）。
-- 若对非 GPT 模型传图，请求会返回错误：`Image input is only available for GPT models`。
+- DeepSeek 图像能力已进行真实效果验收，当前请求无需切换模型或调用 GPT 辅助。
+- 旧 GPT 上传模式每条消息只支持一张图片；多图需使用兼容原生多模态的模型及 `GENAI_IMAGE_TRANSPORT=native`。
 
 示例：
 
@@ -295,7 +304,7 @@ curl http://127.0.0.1:5000/v1/chat/completions \
   -H "Authorization: Bearer <token>" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "gpt-5.5",
+    "model": "deepseek",
     "messages": [
       {
         "role": "user",
@@ -339,7 +348,7 @@ curl http://127.0.0.1:5000/v1/chat/completions \
 
 ![图片说明](images/chrome.png)
 
-对于图片功能, 需要捕获`upload` API, 提取请求 header 中的 `token` ,然后通过 `--upload-token` 传入.
+仅 GPT 旧上传模式需要捕获 `upload` API 的请求头 `token` 并配置 `--upload-token`；DeepSeek 原生图文不需要此上传 Token。
 
 ## 开发与贡献指南
 

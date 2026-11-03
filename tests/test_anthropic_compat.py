@@ -1,14 +1,32 @@
+import base64
 import importlib.util
 import json
 import os
 from pathlib import Path
 import sys
+import struct
 import unittest
+import zlib
 from unittest.mock import Mock, patch
 
 from flask import Flask
 
-from anthropic_compat import create_anthropic_blueprint, to_openai_request
+from anthropic_compat import create_anthropic_blueprint, input_token_count, to_openai_request
+
+
+PNG = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGP4z8AAAAMBAQDJ/pLvAAAAAElFTkSuQmCC"
+
+
+def image_block(data=PNG):
+    return {"type": "image", "source": {"type": "base64", "media_type": "image/png", "data": data}}
+
+
+def image_tool_request(model="deepseek"):
+    return {"model": model, "max_tokens": 128, "messages": [
+        {"role": "user", "content": "Read the image and report its accompanying text honestly."},
+        {"role": "assistant", "content": [{"type": "tool_use", "id": "image_read", "name": "Read", "input": {"file_path": "fixture.png"}}]},
+        {"role": "user", "content": [{"type": "tool_result", "tool_use_id": "image_read", "content": [
+            {"type": "text", "text": "before image"}, image_block(), {"type": "text", "text": "after image"}]}]}]}
 
 
 def events(response):
@@ -83,6 +101,67 @@ class AnthropicCompatibilityTests(unittest.TestCase):
         response = self.client.post("/v1/messages/count_tokens", json=payload)
         self.assertGreater(response.json["input_tokens"], 0)
         self.complete.assert_not_called()
+
+    def test_tool_image_keeps_text_identity_and_real_pixels(self):
+        for model in ("deepseek", "glm"):
+            converted = to_openai_request(image_tool_request(model))
+            result = converted["messages"][-1]
+            self.assertEqual(result["tool_call_id"], "image_read")
+            self.assertEqual(result["content"][0]["text"], "before image")
+            self.assertEqual(result["content"][-1]["text"], "after image")
+            self.assertEqual(result["content"][1]["image_url"]["url"], "data:image/png;base64," + PNG)
+
+    def test_image_tool_result_succeeds_in_json_sse_and_token_count(self):
+        request = image_tool_request()
+        request["tools"] = [{"name": "Read", "input_schema": {"type": "object"}}]
+        self.assertEqual(self.client.post("/v1/messages", json=request).status_code, 200)
+        streamed = self.client.post("/v1/messages", json={**request, "stream": True})
+        self.assertEqual(events(streamed)[-1]["type"], "message_stop")
+        counted = self.client.post("/v1/messages/count_tokens", json=request)
+        self.assertEqual(counted.status_code, 200)
+        self.assertGreater(counted.json["input_tokens"], 0)
+
+    def test_gpt_tool_image_preserves_pixels_and_error_prefix(self):
+        request = image_tool_request("GPT-6-Luna")
+        request["messages"][-1]["content"][0]["is_error"] = True
+        result = to_openai_request(request)["messages"][-1]
+        self.assertEqual(result["tool_call_id"], "image_read")
+        self.assertEqual(result["content"][0]["text"], "Tool error:\n")
+        images = [part for part in result["content"] if part["type"] == "image_url"]
+        self.assertEqual(images[0]["image_url"]["url"], "data:image/png;base64," + PNG)
+
+    def test_image_url_file_reference_and_invalid_sources(self):
+        request = image_tool_request("GPT-6-Luna")
+        content = request["messages"][-1]["content"][0]["content"]
+        content[1] = {"type": "image", "source": {"type": "url", "url": "https://example.com/figure.png"}}
+        result = to_openai_request(request)["messages"][-1]
+        self.assertEqual(result["content"][1]["image_url"]["url"], "https://example.com/figure.png")
+        content[1] = {"type": "image", "source": {"type": "file", "file_id": "file_123"}}
+        self.assertEqual(self.client.post("/v1/messages", json=request).status_code, 400)
+        for source in [{"type": "base64", "media_type": "image/png", "data": "invalid%%%"},
+                       {"type": "url", "url": "file:///etc/passwd"}, {}]:
+            content[1] = {"type": "image", "source": source}
+            self.assertEqual(self.client.post("/v1/messages", json=request).status_code, 400)
+
+    def test_multiple_images_keep_their_pixels_and_order(self):
+        request = image_tool_request("deepseek")
+        request["messages"][-1]["content"][0]["content"].append(image_block())
+        result = to_openai_request(request)["messages"][-1]["content"]
+        self.assertEqual(sum(part["type"] == "image_url" for part in result), 2)
+        self.assertEqual(result[1], result[-1])
+
+    def test_direct_user_image_and_image_token_estimates(self):
+        import random
+        def chunk(name, data):
+            return struct.pack(">I", len(data)) + name + data + struct.pack(">I", zlib.crc32(name + data))
+        rng = random.Random(4827)
+        pixels = b"".join(b"\x00" + rng.randbytes(300) for _ in range(100))
+        png = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", 100, 100, 8, 2, 0, 0, 0)) + chunk(b"IDAT", zlib.compress(pixels)) + chunk(b"IEND", b"")
+        request = {"model": "GPT-6-Luna", "max_tokens": 128, "messages": [{"role": "user", "content": [
+            image_block(base64.b64encode(png).decode()), {"type": "text", "text": "Describe this image."}]}]}
+        converted = to_openai_request(request)
+        self.assertEqual(converted["messages"][0]["content"][0]["type"], "image_url")
+        self.assertLess(input_token_count(converted), 2000)
 
     def test_invalid_upstream_tool_json_is_an_api_error(self):
         self.completion = {"model": "glm", "choices": [{"finish_reason": "tool_calls", "message": {"tool_calls": [
@@ -231,6 +310,26 @@ class SharedBackendTests(unittest.TestCase):
         calls = json.loads(prepared["messages"][-2]["content"])["tool_calls"]
         self.assertEqual(calls[0]["id"], "original_id")
         self.assertEqual(calls[0]["arguments"], {})
+
+    def test_gpt_tool_result_image_reaches_the_existing_upload_path(self):
+        payload = to_openai_request(image_tool_request("GPT-6-Luna"))
+        uploaded = {"imageUrl": "https://example.com/uploaded.png", "width": 1, "height": 1}
+        with patch.object(self.backend, "upload_image_to_genai", return_value=uploaded) as upload:
+            prepared = self.backend.prepare_chat_completion(payload, "test-token")
+        self.assertEqual(prepared["image_payload"], uploaded)
+        self.assertEqual(upload.call_args.args[0], base64.b64decode(PNG))
+        self.assertEqual(upload.call_args.args[2], "image/png")
+        self.assertEqual(upload.call_args.args[3], "test-token")
+        self.assertNotIn(PNG, json.dumps(prepared["messages"]))
+        with patch.object(self.backend, "upload_image_to_genai") as upload:
+            prepared = self.backend.prepare_chat_completion(to_openai_request(image_tool_request("deepseek")))
+        upload.assert_not_called()
+        self.assertIsNone(prepared["image_payload"])
+        result = prepared["messages"][-1]
+        self.assertEqual(result["role"], "user")
+        self.assertIn('"tool_call_id": "image_read"', result["content"][0]["text"])
+        self.assertEqual(result["content"][1]["image_url"]["url"], "data:image/png;base64," + PNG)
+        self.assertNotIn(PNG, result["content"][0]["text"])
 
     def test_json_final_cannot_ask_again_instead_of_running(self):
         for text in ["Want me to run this benchmark in your repo?", "我来运行这个程序。", "I'll run a check now."]:
